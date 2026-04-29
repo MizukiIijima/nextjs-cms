@@ -19,11 +19,17 @@ enum PostStatus {
   ARCHIVED
 }
 
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SPAM
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   name      String
-  posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
