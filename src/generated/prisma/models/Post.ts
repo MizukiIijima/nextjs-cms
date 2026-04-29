@@ -41,7 +41,6 @@ export type PostSumAggregateOutputType = {
 export type PostMinAggregateOutputType = {
   id: number | null
   title: string | null
-  slug: string | null
   excerpt: string | null
   content: string | null
   status: $Enums.PostStatus | null
@@ -55,7 +54,6 @@ export type PostMinAggregateOutputType = {
 export type PostMaxAggregateOutputType = {
   id: number | null
   title: string | null
-  slug: string | null
   excerpt: string | null
   content: string | null
   status: $Enums.PostStatus | null
@@ -69,7 +67,6 @@ export type PostMaxAggregateOutputType = {
 export type PostCountAggregateOutputType = {
   id: number
   title: number
-  slug: number
   excerpt: number
   content: number
   status: number
@@ -97,7 +94,6 @@ export type PostSumAggregateInputType = {
 export type PostMinAggregateInputType = {
   id?: true
   title?: true
-  slug?: true
   excerpt?: true
   content?: true
   status?: true
@@ -111,7 +107,6 @@ export type PostMinAggregateInputType = {
 export type PostMaxAggregateInputType = {
   id?: true
   title?: true
-  slug?: true
   excerpt?: true
   content?: true
   status?: true
@@ -125,7 +120,6 @@ export type PostMaxAggregateInputType = {
 export type PostCountAggregateInputType = {
   id?: true
   title?: true
-  slug?: true
   excerpt?: true
   content?: true
   status?: true
@@ -226,7 +220,6 @@ export type PostGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type PostGroupByOutputType = {
   id: number
   title: string
-  slug: string
   excerpt: string | null
   content: string
   status: $Enums.PostStatus
@@ -263,7 +256,6 @@ export type PostWhereInput = {
   NOT?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
   id?: Prisma.IntFilter<"Post"> | number
   title?: Prisma.StringFilter<"Post"> | string
-  slug?: Prisma.StringFilter<"Post"> | string
   excerpt?: Prisma.StringNullableFilter<"Post"> | string | null
   content?: Prisma.StringFilter<"Post"> | string
   status?: Prisma.EnumPostStatusFilter<"Post"> | $Enums.PostStatus
@@ -281,7 +273,6 @@ export type PostWhereInput = {
 export type PostOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   excerpt?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -298,7 +289,6 @@ export type PostOrderByWithRelationInput = {
 
 export type PostWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  slug?: string
   AND?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
   OR?: Prisma.PostWhereInput[]
   NOT?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
@@ -315,12 +305,11 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   tags?: Prisma.TagListRelationFilter
   thumbnail?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.MediaWhereInput> | null
   comments?: Prisma.CommentListRelationFilter
-}, "id" | "slug">
+}, "id">
 
 export type PostOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   excerpt?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -342,7 +331,6 @@ export type PostScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PostScalarWhereWithAggregatesInput | Prisma.PostScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Post"> | number
   title?: Prisma.StringWithAggregatesFilter<"Post"> | string
-  slug?: Prisma.StringWithAggregatesFilter<"Post"> | string
   excerpt?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
   content?: Prisma.StringWithAggregatesFilter<"Post"> | string
   status?: Prisma.EnumPostStatusWithAggregatesFilter<"Post"> | $Enums.PostStatus
@@ -355,7 +343,6 @@ export type PostScalarWhereWithAggregatesInput = {
 
 export type PostCreateInput = {
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -371,7 +358,6 @@ export type PostCreateInput = {
 export type PostUncheckedCreateInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -386,7 +372,6 @@ export type PostUncheckedCreateInput = {
 
 export type PostUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -402,7 +387,6 @@ export type PostUpdateInput = {
 export type PostUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -418,7 +402,6 @@ export type PostUncheckedUpdateInput = {
 export type PostCreateManyInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -431,7 +414,6 @@ export type PostCreateManyInput = {
 
 export type PostUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -443,7 +425,6 @@ export type PostUpdateManyMutationInput = {
 export type PostUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -457,7 +438,6 @@ export type PostUncheckedUpdateManyInput = {
 export type PostCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
   content?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -477,7 +457,6 @@ export type PostAvgOrderByAggregateInput = {
 export type PostMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
   content?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -491,7 +470,6 @@ export type PostMaxOrderByAggregateInput = {
 export type PostMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
   content?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -681,7 +659,6 @@ export type PostUpdateOneRequiredWithoutCommentsNestedInput = {
 
 export type PostCreateWithoutTagsInput = {
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -696,7 +673,6 @@ export type PostCreateWithoutTagsInput = {
 export type PostUncheckedCreateWithoutTagsInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -735,7 +711,6 @@ export type PostScalarWhereInput = {
   NOT?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
   id?: Prisma.IntFilter<"Post"> | number
   title?: Prisma.StringFilter<"Post"> | string
-  slug?: Prisma.StringFilter<"Post"> | string
   excerpt?: Prisma.StringNullableFilter<"Post"> | string | null
   content?: Prisma.StringFilter<"Post"> | string
   status?: Prisma.EnumPostStatusFilter<"Post"> | $Enums.PostStatus
@@ -748,7 +723,6 @@ export type PostScalarWhereInput = {
 
 export type PostCreateWithoutCategoryInput = {
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -763,7 +737,6 @@ export type PostCreateWithoutCategoryInput = {
 export type PostUncheckedCreateWithoutCategoryInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -803,7 +776,6 @@ export type PostUpdateManyWithWhereWithoutCategoryInput = {
 
 export type PostCreateWithoutThumbnailInput = {
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -818,7 +790,6 @@ export type PostCreateWithoutThumbnailInput = {
 export type PostUncheckedCreateWithoutThumbnailInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -858,7 +829,6 @@ export type PostUpdateManyWithWhereWithoutThumbnailInput = {
 
 export type PostCreateWithoutCommentsInput = {
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -873,7 +843,6 @@ export type PostCreateWithoutCommentsInput = {
 export type PostUncheckedCreateWithoutCommentsInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -903,7 +872,6 @@ export type PostUpdateToOneWithWhereWithoutCommentsInput = {
 
 export type PostUpdateWithoutCommentsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -918,7 +886,6 @@ export type PostUpdateWithoutCommentsInput = {
 export type PostUncheckedUpdateWithoutCommentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -932,7 +899,6 @@ export type PostUncheckedUpdateWithoutCommentsInput = {
 
 export type PostUpdateWithoutTagsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -947,7 +913,6 @@ export type PostUpdateWithoutTagsInput = {
 export type PostUncheckedUpdateWithoutTagsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -962,7 +927,6 @@ export type PostUncheckedUpdateWithoutTagsInput = {
 export type PostUncheckedUpdateManyWithoutTagsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -976,7 +940,6 @@ export type PostUncheckedUpdateManyWithoutTagsInput = {
 export type PostCreateManyCategoryInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -988,7 +951,6 @@ export type PostCreateManyCategoryInput = {
 
 export type PostUpdateWithoutCategoryInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -1003,7 +965,6 @@ export type PostUpdateWithoutCategoryInput = {
 export type PostUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -1018,7 +979,6 @@ export type PostUncheckedUpdateWithoutCategoryInput = {
 export type PostUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -1031,7 +991,6 @@ export type PostUncheckedUpdateManyWithoutCategoryInput = {
 export type PostCreateManyThumbnailInput = {
   id?: number
   title: string
-  slug: string
   excerpt?: string | null
   content: string
   status?: $Enums.PostStatus
@@ -1043,7 +1002,6 @@ export type PostCreateManyThumbnailInput = {
 
 export type PostUpdateWithoutThumbnailInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -1058,7 +1016,6 @@ export type PostUpdateWithoutThumbnailInput = {
 export type PostUncheckedUpdateWithoutThumbnailInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -1073,7 +1030,6 @@ export type PostUncheckedUpdateWithoutThumbnailInput = {
 export type PostUncheckedUpdateManyWithoutThumbnailInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
@@ -1126,7 +1082,6 @@ export type PostCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.E
 export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  slug?: boolean
   excerpt?: boolean
   content?: boolean
   status?: boolean
@@ -1145,7 +1100,6 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  slug?: boolean
   excerpt?: boolean
   content?: boolean
   status?: boolean
@@ -1161,7 +1115,6 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  slug?: boolean
   excerpt?: boolean
   content?: boolean
   status?: boolean
@@ -1177,7 +1130,6 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type PostSelectScalar = {
   id?: boolean
   title?: boolean
-  slug?: boolean
   excerpt?: boolean
   content?: boolean
   status?: boolean
@@ -1188,7 +1140,7 @@ export type PostSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "content" | "status" | "categoryId" | "thumbnailId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "excerpt" | "content" | "status" | "categoryId" | "thumbnailId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
 export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.Post$categoryArgs<ExtArgs>
   tags?: boolean | Prisma.Post$tagsArgs<ExtArgs>
@@ -1216,7 +1168,6 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
-    slug: string
     excerpt: string | null
     content: string
     status: $Enums.PostStatus
@@ -1654,7 +1605,6 @@ export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface PostFieldRefs {
   readonly id: Prisma.FieldRef<"Post", 'Int'>
   readonly title: Prisma.FieldRef<"Post", 'String'>
-  readonly slug: Prisma.FieldRef<"Post", 'String'>
   readonly excerpt: Prisma.FieldRef<"Post", 'String'>
   readonly content: Prisma.FieldRef<"Post", 'String'>
   readonly status: Prisma.FieldRef<"Post", 'PostStatus'>
