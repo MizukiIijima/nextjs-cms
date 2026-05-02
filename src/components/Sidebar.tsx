@@ -20,12 +20,12 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { href: "/dashboard", label: "ダッシュボード", Icon: LayoutDashboard },
-  { href: "/articles", label: "記事一覧", Icon: FileText },
-  { href: "/categories", label: "カテゴリ一覧", Icon: FolderTree },
-  { href: "/tags", label: "タグ一覧", Icon: Tags },
-  { href: "/medias", label: "メディア管理", Icon: Images },
-  { href: "/comments", label: "コメント管理", Icon: MessageCircle },
-  { href: "/logout", label: "ログアウト", Icon: LogOut },
+  { href: "/dashboard/posts", label: "記事一覧", Icon: FileText },
+  { href: "/dashboard/categories", label: "カテゴリ一覧", Icon: FolderTree },
+  { href: "/dashboard/tags", label: "タグ一覧", Icon: Tags },
+  { href: "/dashboard/medias", label: "メディア管理", Icon: Images },
+  { href: "/dashboard/comments", label: "コメント管理", Icon: MessageCircle },
+  { href: "/dashboard/logout", label: "ログアウト", Icon: LogOut },
 ];
 
 export default function Sidebar() {
