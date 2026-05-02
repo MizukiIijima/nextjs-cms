@@ -35,6 +35,7 @@ type Props = {
 export default function MarkdownEditor({ value, onChange }: Props) {
   return (
     <MDXEditor
+      contentEditableClassName="min-h-80 p-4 outline-none"
       markdown={value}
       onChange={onChange}
       plugins={[
