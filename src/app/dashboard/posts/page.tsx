@@ -12,6 +12,9 @@ export default async function PostList({ searchParams } : { searchParams: Promis
   const endPost = startPost + POSTS_PER_PAGE;
   const currentPosts = allPosts.slice(startPost, endPost);
 
+  const thClass = "py-4 px-6 font-light text-left";
+  const tdClass = "p-6 text-left text-sm";
+
   return (
     <div className="p-6 grow">
       <div className="mt-6">ダッシュボード › 記事一覧</div>
@@ -35,38 +38,39 @@ export default async function PostList({ searchParams } : { searchParams: Promis
         </div>
       </div>
 
-
       <div className="mt-6 overflow-hidden rounded-3xl">
         <table className="w-full">
           <thead>
             <tr className="bg-gray-100">
-              <th className="py-4 px-6 font-light text-left">記事</th>
-              <th className="py-4 px-6 font-light text-left">ステータス</th>
-              <th className="py-4 px-6 font-light text-left">カテゴリー</th>
-              <th className="py-4 px-6 font-light text-left">タグ</th>
-              <th className="py-4 px-6 font-light text-left">公開日</th>
-              <th className="py-4 px-6 font-light text-left">更新日</th>
+              <th className={thClass}>記事</th>
+              <th className={thClass}>ステータス</th>
+              <th className={thClass}>カテゴリー</th>
+              <th className={thClass}>タグ</th>
+              <th className={thClass}>公開日</th>
+              <th className={thClass}>更新日</th>
             </tr>
           </thead>
           <tbody>
             {totalPostCount > 0 ? (
               currentPosts.map(post => (
                 <tr key={post.id} className="border-b border-gray-200">
-                  <td className="p-6 text-left text-sm">{post.title}</td>
-                  <td className="p-6 text-left text-sm">{post.status}</td>
-                  {post.categories.map((category) => (
-                    <td key={category.id} className="p-6 text-left text-sm">{category.name}</td>
-                  ))}
-                  {post.tags.map((tag) => (
-                    <td key={tag.id} className="p-6 text-left text-sm">{tag.name}</td>
-                  ))}
-                  <td className="p-6 text-left text-sm">{post.status}</td>
-                  <td className="p-6 text-left text-sm">{post.createdAt.toLocaleDateString()}</td>
-                  <td className="p-6 text-left text-sm">{post.updatedAt.toLocaleDateString()}</td>
+                  <td className={tdClass}>{post.title}</td>
+                  <td className={tdClass}>{post.status}</td>
+                  <td className={tdClass}>
+                    {post.categories.map((category) => category.name).join(", ")}
+                  </td>
+                  <td className={tdClass}>
+                    {post.tags.map((tag) => tag.name).join(", ")}
+                  </td>
+                  <td className={tdClass}>{post.status}</td>
+                  <td className={tdClass}>{post.createdAt.toLocaleDateString()}</td>
+                  <td className={tdClass}>{post.updatedAt.toLocaleDateString()}</td>
                 </tr>
               ))
             ) : (
-              <p>投稿がありません。</p>
+              <tr>
+                <td className={tdClass} colSpan={6}>投稿がありません。</td>
+              </tr>
             )}
           </tbody>
         </table>
