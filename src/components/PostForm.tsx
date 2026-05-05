@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import MarkdownEditor from "./MarkdownEditor";
+import Button from "./Button";
 import {
   createPostAction,
   editPostAction,
@@ -50,7 +51,13 @@ export default function PostForm(props: FormProps) {
           <MarkdownEditor value={content} onChange={setContent}/>
         </div>
       </div>
-      <button>{mode === "create" ? "作成" : "編集" }</button>
+      <Button
+        variant="primary"
+        type="submit"
+        className="py-2.5"
+      >
+        {mode === "create" ? "作成" : "編集" }
+      </Button>
     </form>
   )
 }
