@@ -71,3 +71,38 @@ export async function createPostAction(
     };
   }
 }
+
+export async function editPostAction(
+  id: number,
+  _prevState: CreatePostState,
+  formData: FormData,
+): Promise<CreatePostState> {
+  const validatedPostFields = postSchema.safeParse({
+    title: formData.get("title"),
+    content: formData.get("content"),
+  });
+
+  if (!validatedPostFields.success) {
+    return {
+      success: false,
+      errors: validatedPostFields.error.flatten().fieldErrors,
+      message: "入力内容を確認してください",
+    };
+  }
+
+  const { title, content } = validatedPostFields.data;
+
+  await prisma.post.update({
+    where: { id },
+    data: {
+      title,
+      content,
+    },
+  });
+
+  return {
+    success: true,
+    message: "記事を編集しました",
+    errors: {},
+  };
+}
