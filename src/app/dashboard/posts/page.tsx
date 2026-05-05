@@ -1,8 +1,9 @@
-import { getPosts } from "@/src/lib/posts";
+import { getAllPosts } from "@/src/lib/posts";
 import Pagination from "@/src/components/Pagination";
+import Link from "next/link";
 
 export default async function PostList({ searchParams } : { searchParams: Promise<{ page?: string; }> }) {
-  const allPosts = await getPosts();
+  const allPosts = await getAllPosts();
   const { page: pageParam = "1" } = (await searchParams) ?? {};
   const currentPage = Number(pageParam);
 
@@ -53,18 +54,37 @@ export default async function PostList({ searchParams } : { searchParams: Promis
           <tbody>
             {totalPostCount > 0 ? (
               currentPosts.map(post => (
-                <tr key={post.id} className="border-b border-gray-200">
-                  <td className={tdClass}>{post.title}</td>
-                  <td className={tdClass}>{post.status}</td>
+                <tr key={post.id} className="border-b border-gray-200 hover:bg-gray-50">
                   <td className={tdClass}>
-                    {post.categories.map((category) => category.name).join(", ")}
+                    <Link href={`/dashboard/posts/${post.id}`} className="block">
+                      {post.title}
+                    </Link>
                   </td>
                   <td className={tdClass}>
-                    {post.tags.map((tag) => tag.name).join(", ")}
+                    <Link href={`/dashboard/posts/${post.id}`} className="block">
+                      {post.status}
+                    </Link>
                   </td>
-                  <td className={tdClass}>{post.status}</td>
-                  <td className={tdClass}>{post.createdAt.toLocaleDateString()}</td>
-                  <td className={tdClass}>{post.updatedAt.toLocaleDateString()}</td>
+                  <td className={tdClass}>
+                    <Link href={`/dashboard/posts/${post.id}`} className="block">
+                      {post.categories.map((category) => category.name).join(", ")}
+                    </Link>
+                  </td>
+                  <td className={tdClass}>
+                    <Link href={`/dashboard/posts/${post.id}`} className="block">
+                      {post.tags.map((tag) => tag.name).join(", ")}
+                    </Link>
+                  </td>
+                  <td className={tdClass}>
+                    <Link href={`/dashboard/posts/${post.id}`} className="block">
+                      {post.createdAt.toLocaleDateString()}
+                    </Link>
+                  </td>
+                  <td className={tdClass}>
+                    <Link href={`/dashboard/posts/${post.id}`} className="block">
+                      {post.updatedAt.toLocaleDateString()}
+                    </Link>
+                  </td>
                 </tr>
               ))
             ) : (

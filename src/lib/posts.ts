@@ -10,7 +10,19 @@ export type PostWithCategory = Prisma.PostGetPayload<{
   };
 }>;
 
-export async function getPosts(): Promise<PostWithCategory[]> {
+export async function getSinglePost(
+  id: number,
+): Promise<PostWithCategory | null> {
+  return await prisma.post.findUnique({
+    where: { id },
+    include: {
+      categories: true,
+      tags: true,
+    },
+  });
+}
+
+export async function getAllPosts(): Promise<PostWithCategory[]> {
   return await prisma.post.findMany({
     include: {
       categories: true,
