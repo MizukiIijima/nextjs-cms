@@ -3,6 +3,7 @@ type ButtonProps = {
   variant: "primary" | "danger" | "default";
   type?: "button" | "submit";
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const buttonStyle = {
@@ -11,11 +12,13 @@ const buttonStyle = {
   default: "bg-default hover:bg-default-dark",
 }
 
-export default function Button({ children, variant, type = "button", className }: ButtonProps) {
+export default function Button({ children, variant, type = "button", className, onClick }: ButtonProps) {
   return (
     <button
       className={`${buttonStyle[variant]} w-80 rounded-3xl block m-auto ${className ?? ""}`}
       type={type === "submit"? "submit" : "button"}
+      onClick={onClick}
     >{children}</button>
+
   )
 }

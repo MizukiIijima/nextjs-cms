@@ -9,8 +9,9 @@
   --primary-dark: #1d4ed8;
   --danger: #dc2626;
   --danger-dark: #b91c1c;
-  --default: #c8c8c8;
-  --default-dark: #9e9e9e;
+  --default: #eeeeee;
+  --default-dark: #d4d4d4;
+  --gray: #64748b;
 }
 
 @theme inline {
@@ -24,6 +25,7 @@
   --color-danger-dark: var(--danger-dark);
   --color-default: var(--default);
   --color-default-dark: var(--default-dark);
+  --color-gray: var(--gray);
   --font-sans: Arial, Helvetica, sans-serif;
   --font-mono: "Courier New", Courier, monospace;
 }
