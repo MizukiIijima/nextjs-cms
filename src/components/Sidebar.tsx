@@ -30,7 +30,7 @@ const navItems: NavItem[] = [
 
 export default function Sidebar() {
   return (
-    <nav aria-label="管理メニュー" className="bg-sidebar w-50 py-8 px-4">
+    <nav aria-label="管理メニュー" className="bg-sidebar w-[200px] shrink-0 py-8 px-4">
       <ul className="space-y-4">
         {navItems.map(({ href, label, Icon }) => (
           <li key={href}>
