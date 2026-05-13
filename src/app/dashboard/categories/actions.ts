@@ -15,7 +15,20 @@ const categorySchema = z.object({
   description: z.string().trim().optional(),
 });
 
-export async function createCategory(formData: FormData) {
+export type CategoryFormState = {
+  success: boolean;
+  errors?: {
+    name?: string[];
+    slug?: string[];
+    description?: string[];
+  };
+  message: string;
+};
+
+export async function createCategory(
+  prevState: CategoryFormState,
+  formData: FormData,
+): Promise<CategoryFormState> {
   const validatedCategoryFields = categorySchema.safeParse({
     name: formData.get("name"),
     slug: formData.get("slug"),
@@ -23,9 +36,10 @@ export async function createCategory(formData: FormData) {
   });
 
   if (!validatedCategoryFields.success) {
+    const { fieldErrors } = z.flattenError(validatedCategoryFields.error);
     return {
       success: false,
-      errors: validatedCategoryFields.error.flatten().fieldErrors,
+      errors: fieldErrors,
       message: "入力内容を確認してください",
     };
   }
@@ -40,4 +54,9 @@ export async function createCategory(formData: FormData) {
       description,
     },
   });
+
+  return {
+    success: true,
+    message: "カテゴリを作成しました",
+  };
 }
