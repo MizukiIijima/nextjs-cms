@@ -22,7 +22,7 @@ export default async function PostList({ searchParams } : { searchParams: Promis
       <h1 className="mt-2 font-bold text-3xl">記事一覧</h1>
 
       <div className="mt-8 flex justify-between items-center">
-        <ul className="p-3 flex gap-3.5 rounded-3xl border border-slate-300">
+        <ul className="p-3 flex gap-3.5 rounded-3xl border border-divider">
           <li>すべて</li>
           <li>公開中</li>
           <li>下書き</li>
@@ -33,7 +33,7 @@ export default async function PostList({ searchParams } : { searchParams: Promis
           <input
             type="text" 
             name="keyword"
-            className="w-80 border border-slate-300 rounded-md px-3 py-2 text-sm" 
+            className="w-80 border border-divider rounded-md px-3 py-2 text-sm" 
             placeholder="タイトル・本文を検索" 
           />
         </div>

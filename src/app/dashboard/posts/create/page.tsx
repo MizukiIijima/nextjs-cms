@@ -1,7 +1,7 @@
 import PostForm from "@/src/components/PostForm";
 
 export default function CreatePost() {
-  const panelClassName = "rounded-lg border border-gray-300 bg-white px-4 py-6";
+  const panelClassName = "rounded-lg border border-divider bg-white px-4 py-6";
 
   return (
     <>

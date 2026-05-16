@@ -39,7 +39,7 @@ export default function PostForm(props: FormProps) {
       {state.message && <p>{state.message}</p>}
       <div className="flex flex-col gap-2">
         <label htmlFor="title">タイトル</label>
-        <input type="text" name="title" id="title" className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm" required
+        <input type="text" name="title" id="title" className="rounded-md border border-divider bg-white px-3 py-2 text-sm" required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -47,7 +47,7 @@ export default function PostForm(props: FormProps) {
       <div className="flex flex-col gap-2">
         <label htmlFor="content">本文</label>
         <input type="hidden" name="content" value={content} />
-        <div className="rounded-lg border border-gray-300 bg-white">
+        <div className="rounded-lg border border-divider bg-white">
           <MarkdownEditor value={content} onChange={setContent}/>
         </div>
       </div>

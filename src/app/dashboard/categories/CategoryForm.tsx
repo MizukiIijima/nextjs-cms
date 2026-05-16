@@ -25,19 +25,19 @@ export default function CategoryForm({ action, initialState }: CategoryFormProps
         <div className="flex flex-col gap-2">
           <label htmlFor="name">カテゴリ名</label>
           <input type="text" name="name" id="name"
-            className="rounded-md border border-border bg-white px-3 py-2 text-sm" required
+            className="rounded-md border border-divider bg-white px-3 py-2 text-sm" required
           />
         </div>
         <div className="flex flex-col gap-2 mt-4">
           <label htmlFor="slug">スラッグ</label>
           <input type="text" name="slug" id="slug"
-          className="rounded-md border border-border bg-white px-3 py-2 text-sm"
+          className="rounded-md border border-divider bg-white px-3 py-2 text-sm"
           />
         </div>
         <div className="flex flex-col gap-2 mt-4">
           <label htmlFor="description">説明</label>
           <input type="text" name="description" id="description"
-          className="rounded-md border border-border bg-white px-3 py-2 text-sm"
+          className="rounded-md border border-divider bg-white px-3 py-2 text-sm"
           />
         </div>
         <Button 

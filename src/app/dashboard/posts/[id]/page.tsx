@@ -4,7 +4,7 @@ import PostForm from "@/src/components/PostForm";
 export default async function PostEditPage({ params }: { params: Promise<{ id: number }> }) {
   const { id } = await params;
   const post = await getSinglePost(Number(id));
-  const panelClassName = "rounded-lg border border-gray-300 bg-white px-4 py-6";
+  const panelClassName = "rounded-lg border border-divider bg-white px-4 py-6";
 
   if (!post) {
     return (

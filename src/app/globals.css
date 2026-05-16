@@ -11,6 +11,7 @@
   --danger-dark: #b91c1c;
   --default: #eeeeee;
   --default-dark: #d4d4d4;
+  --divider: #cbd5e1;
   --gray: #64748b;
 }
 
@@ -25,6 +26,7 @@
   --color-danger-dark: var(--danger-dark);
   --color-default: var(--default);
   --color-default-dark: var(--default-dark);
+  --color-divider: var(--divider);
   --color-gray: var(--gray);
   --font-sans: Arial, Helvetica, sans-serif;
   --font-mono: "Courier New", Courier, monospace;
