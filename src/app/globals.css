@@ -9,6 +9,12 @@
   --primary-dark: #1d4ed8;
   --danger: #dc2626;
   --danger-dark: #b91c1c;
+  --success: #86efac;
+  --success-bg: #f0fdf4;
+  --success-text: #15803d;
+  --error: #fca5a5;
+  --error-bg: #fef2f2;
+  --error-text: #b91c1c;
   --default: #eeeeee;
   --default-dark: #d4d4d4;
   --divider: #cbd5e1;
@@ -24,6 +30,12 @@
   --color-primary-dark: var(--primary-dark);
   --color-danger: var(--danger);
   --color-danger-dark: var(--danger-dark);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-text: var(--success-text);
+  --color-error: var(--error);
+  --color-error-bg: var(--error-bg);
+  --color-error-text: var(--error-text);
   --color-default: var(--default);
   --color-default-dark: var(--default-dark);
   --color-divider: var(--divider);

@@ -29,7 +29,13 @@ export default function CategoryForm({
   
   return (
     <>
-      {state && <p className="absolute left-1/2">{state.message}</p>}
+      {state.message && (
+        <p className={`absolute left-1/2 top-12.5 -translate-x-1/2 rounded-md border px-4 py-2 text-sm shadow-sm ${
+          state.success
+            ? "border-success bg-success-bg text-success-text"
+            : "border-error bg-error-bg text-error-text"
+        }`}>{state.message}</p>
+      )}
 
       <form action={formAction} className="mt-4">
         {isEditing && (
