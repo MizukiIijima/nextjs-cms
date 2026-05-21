@@ -1,12 +1,18 @@
 "use client";
 
+import { useActionState, useState } from "react";
+import { updateCategory, type CategoryFormState } from "../actions";
 import type { Category } from "@/src/generated/prisma/client";
-import { useState } from "react";
 import Button from "@/src/components/Button";
 
 type EditCategoryFormProps = {
   category: Category;
   onCancel: () => void;
+};
+
+const initialState: CategoryFormState = {
+  success: false,
+  message: "",
 };
 
 export default function EditCategoryForm({ category, onCancel }: EditCategoryFormProps) {
@@ -15,13 +21,16 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
     slug: category.slug,
     description: category.description ?? "",
   });
+  const [state, formAction, isPending] = useActionState(updateCategory, initialState);
+
   const nameId = `category-name-${category.id}`;
   const slugId = `category-slug-${category.id}`;
   const descriptionId = `category-description-${category.id}`;
 
   return (
     <td colSpan={5} className="bg-slate-50 px-4 py-5">
-      <form action="hgoe" className="mx-auto max-w-4xl space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+      <form action={formAction} className="mx-auto max-w-4xl space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+        <input type="hidden" name="id" value={category.id} />
 
         <div className="grid gap-4 md:grid-cols-[1fr_1.1fr]">
           <div className="space-y-4">
@@ -30,7 +39,10 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
                 カテゴリ名
               </label>
               <input
-                type="text" name="name" id={slugId} required
+                type="text"
+                name="name"
+                id={nameId}
+                required
                 value={formValue.name}
                 className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-300 focus:ring-4 focus:ring-blue-50"
                 onChange={(e) => setFormValue({
@@ -38,14 +50,20 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
                   name: e.target.value,
                 })}
               />
+              {state.errors?.name && (
+                <p className="text-xs text-red-600">{state.errors.name[0]}</p>
+              )}
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor={descriptionId} className="text-sm font-medium text-slate-800">
+              <label htmlFor={slugId} className="text-sm font-medium text-slate-800">
                 slug
               </label>
               <input
-                type="text" name="slug" id={`category-slug-${category.id}`} required
+                type="text"
+                name="slug"
+                id={slugId}
+                required
                 value={formValue.slug}
                 className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-300 focus:ring-4 focus:ring-blue-50"
                 onChange={(e) => setFormValue({
@@ -53,16 +71,19 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
                   slug: e.target.value,
                 })}
               />
+              {state.errors?.slug && (
+                <p className="text-xs text-red-600">{state.errors.slug[0]}</p>
+              )}
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor={`category-description-${category.id}`} className="text-sm font-medium text-slate-800">
+            <label htmlFor={descriptionId} className="text-sm font-medium text-slate-800">
               説明文
             </label>
             <textarea
               name="description"
-              id={`category-description-${category.id}`}
+              id={descriptionId}
               value={formValue.description}
               rows={5}
               className="min-h-28 resize-y rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-300 focus:ring-4 focus:ring-blue-50"
@@ -71,15 +92,25 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
                 description: e.target.value,
               })}
             />
+            {state.errors?.description && (
+              <p className="text-xs text-red-600">{state.errors.description[0]}</p>
+            )}
           </div>
         </div>
+
+        {state.message && (
+          <p className={state.success ? "text-sm text-blue-700" : "text-sm text-red-600"} aria-live="polite">
+            {state.message}
+          </p>
+        )}
 
         <div className="flex flex-wrap gap-3 pt-1">
           <Button
             variant="primary"
+            type="submit"
             className="m-0! w-auto! px-5 py-2.5 text-sm font-bold"
           >
-            更新
+            {isPending ? "更新中..." : "更新"}
           </Button>
           <Button
             variant="default"
