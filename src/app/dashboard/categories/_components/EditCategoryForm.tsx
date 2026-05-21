@@ -21,7 +21,7 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
     slug: category.slug,
     description: category.description ?? "",
   });
-  const [state, formAction, isPending] = useActionState(updateCategory, initialState);
+  const [state, formAction] = useActionState(updateCategory, initialState);
 
   const nameId = `category-name-${category.id}`;
   const slugId = `category-slug-${category.id}`;
@@ -110,7 +110,7 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
             type="submit"
             className="m-0! w-auto! px-5 py-2.5 text-sm font-bold"
           >
-            {isPending ? "更新中..." : "更新"}
+            更新
           </Button>
           <Button
             variant="default"
