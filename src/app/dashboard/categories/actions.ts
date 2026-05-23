@@ -1,14 +1,8 @@
 "use server";
 
-import { PrismaPg } from "@prisma/adapter-pg";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { PrismaClient } from "@/src/generated/prisma/client";
-
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
-});
-const prisma = new PrismaClient({ adapter });
+import { prisma } from "@/src/lib/prisma";
 
 const categorySchema = z.object({
   name: z.string().trim().min(1, { error: "カテゴリ名は必須です。" }),
