@@ -19,7 +19,18 @@ export default function CategoryForm({ action, initialState }: CategoryFormProps
   
   return (
     <>
-      {state && <p className="absolute left-1/2">{state.message}</p>}
+      {state.message && (
+        <p
+          className={`fixed top-6 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border px-4 py-3 text-center text-sm font-bold shadow-lg ${
+            state.success
+              ? "border-blue-200 bg-blue-50 text-blue-700"
+              : "border-red-200 bg-red-50 text-red-700"
+          }`}
+          aria-live="polite"
+        >
+          {state.message}
+        </p>
+      )}
 
       <form action={formAction} className="mt-4">
         <div className="flex flex-col gap-2">

@@ -23,10 +23,6 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
   });
   const [state, formAction] = useActionState(updateCategory, initialState);
 
-  const nameId = `category-name-${category.id}`;
-  const slugId = `category-slug-${category.id}`;
-  const descriptionId = `category-description-${category.id}`;
-
   return (
     <td colSpan={5} className="bg-slate-50 px-4 py-5">
       <form action={formAction} className="mx-auto max-w-4xl space-y-5 rounded-lg border border-slate-200 bg-white p-5">
@@ -35,13 +31,13 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
         <div className="grid gap-4 md:grid-cols-[1fr_1.1fr]">
           <div className="space-y-4">
             <div className="flex flex-col gap-2">
-              <label htmlFor={nameId} className="text-sm font-medium text-slate-800">
+              <label htmlFor="edit-name" className="text-sm font-medium text-slate-800">
                 カテゴリ名
               </label>
               <input
                 type="text"
                 name="name"
-                id={nameId}
+                id="edit-name"
                 required
                 value={formValue.name}
                 className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-300 focus:ring-4 focus:ring-blue-50"
@@ -56,13 +52,13 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor={slugId} className="text-sm font-medium text-slate-800">
+              <label htmlFor="edit-slug" className="text-sm font-medium text-slate-800">
                 slug
               </label>
               <input
                 type="text"
                 name="slug"
-                id={slugId}
+                id="edit-slug"
                 required
                 value={formValue.slug}
                 className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-300 focus:ring-4 focus:ring-blue-50"
@@ -78,12 +74,12 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor={descriptionId} className="text-sm font-medium text-slate-800">
+            <label htmlFor="edit-description" className="text-sm font-medium text-slate-800">
               説明文
             </label>
             <textarea
               name="description"
-              id={descriptionId}
+              id="edit-description"
               value={formValue.description}
               rows={5}
               className="min-h-28 resize-y rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-300 focus:ring-4 focus:ring-blue-50"

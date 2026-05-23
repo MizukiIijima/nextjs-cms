@@ -16,3 +16,11 @@ export async function getAllCategories() {
     },
   });
 }
+
+export async function getSingleCategory(id: number) {
+  return await prisma.category.findUnique({
+    where: {
+      id,
+    },
+  });
+}

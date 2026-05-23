@@ -110,3 +110,13 @@ export async function updateCategory(
     message: "カテゴリを更新しました",
   };
 }
+
+export async function deleteCategory(id: number) {
+  await prisma.category.delete({
+    where: {
+      id,
+    },
+  });
+
+  revalidatePath("/dashboard/categories");
+}
