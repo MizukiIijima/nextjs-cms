@@ -15,7 +15,7 @@ const buttonStyle = {
 export default function Button({ children, variant, type = "button", className, onClick }: ButtonProps) {
   return (
     <button
-      className={`${buttonStyle[variant]} w-80 rounded-3xl block m-auto ${className ?? ""}`}
+      className={`${buttonStyle[variant]} cursor-pointer w-80 rounded-3xl block m-auto ${className ?? ""}`}
       type={type === "submit"? "submit" : "button"}
       onClick={onClick}
     >{children}</button>
