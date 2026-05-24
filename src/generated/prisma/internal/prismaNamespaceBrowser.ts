@@ -105,6 +105,7 @@ export const TagScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
+  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
