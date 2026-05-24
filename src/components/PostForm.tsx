@@ -54,7 +54,7 @@ export default function PostForm(props: FormProps) {
       <Button
         variant="primary"
         type="submit"
-        className="py-2.5"
+        className="mx-auto block w-80 max-w-full py-2.5"
       >
         {mode === "create" ? "作成" : "編集" }
       </Button>

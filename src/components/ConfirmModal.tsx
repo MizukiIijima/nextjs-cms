@@ -28,14 +28,14 @@ export default function ConfirmModal({ name, count, type, deleteAction, onCancel
         </div>
         <Button
           variant="danger"
-          className="m-0! mt-6! inline-flex w-full! items-center justify-center rounded-lg! py-2.5 text-sm font-bold"
+          className="mt-6 flex w-full items-center justify-center rounded-lg py-2.5"
           type="submit"
         >
             削除する
         </Button>
         <Button
           variant="default"
-          className="m-0! mt-3! inline-flex w-full! items-center justify-center rounded-lg! border border-slate-200 bg-white! py-2.5 text-sm font-bold text-slate-700"
+          className="mt-3 flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white py-2.5 text-slate-700"
           onClick={onCancel}
         >
             キャンセル

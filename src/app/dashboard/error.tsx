@@ -21,7 +21,7 @@ export default function Error({ error, unstable_retry } :  ErrorProps) {
         <p className="mt-2 text-center">データを読み込めませんでした。</p>
         <Button
         variant="default"
-        className="mt-3 py-2 cursor-pointer"
+        className="mx-auto mt-3 block w-80 max-w-full cursor-pointer py-2"
         onClick={() => unstable_retry()}>もう一度試す</Button>
       </div>
     </div>

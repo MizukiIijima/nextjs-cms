@@ -54,7 +54,7 @@ export default function CategoryForm({ action, initialState }: CategoryFormProps
         <Button 
           variant="primary"
           type="submit"
-          className="py-2.5 mt-8"
+          className="mt-8 block w-80 py-2.5"
         >
           作成
         </Button>

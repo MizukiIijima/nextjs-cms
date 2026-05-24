@@ -54,7 +54,7 @@ export default function CategoryTable({ allCategories }: { allCategories: Catego
                   <td className={`flex gap-2 ${tdStyle}`}>
                     <Button
                       variant="default"
-                      className="py-1.5 w-8"
+                      className="w-16 px-2 py-1.5"
                       onClick={() => {
                         setEditingCategoryId(isEditing ? null : category.id);
                       }}
@@ -63,7 +63,7 @@ export default function CategoryTable({ allCategories }: { allCategories: Catego
                     </Button>
                     <Button
                       variant="danger"
-                      className="py-1.5 w-8"
+                      className="w-16 px-2 py-1.5"
                       onClick={() => {
                         setDeleteCategoryId(isDeleteTarget ? null : category.id);
                       }}

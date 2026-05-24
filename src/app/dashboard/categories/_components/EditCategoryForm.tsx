@@ -104,13 +104,13 @@ export default function EditCategoryForm({ category, onCancel }: EditCategoryFor
           <Button
             variant="primary"
             type="submit"
-            className="m-0! w-auto! px-5 py-2.5 text-sm font-bold"
+            className="w-auto px-5 py-2.5"
           >
             更新
           </Button>
           <Button
             variant="default"
-            className="m-0! w-auto! border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold"
+            className="w-auto border border-slate-200 bg-white px-5 py-2.5"
             onClick={onCancel}
           >
             キャンセル
