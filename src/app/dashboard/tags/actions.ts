@@ -6,10 +6,12 @@ import { Prisma } from "@/src/generated/prisma/client";
 import { prisma } from "@/src/lib/prisma";
 
 const tagSchema = z.object({
-  name: z.string().trim().min(1, { error: "タグ名は必須です。" }),
+  name: z.string().trim().min(1, { error: "タグ名は必須です" }),
   slug: z.string().trim().optional(),
   description: z.string().trim().optional(),
 });
+
+const tagIdSchema = z.coerce.number().int().positive();
 
 export type TagFormState = {
   success: boolean;
@@ -75,4 +77,43 @@ export async function createTag(
 
 export async function editTag() {}
 
-export async function deleteTag() {}
+export async function deleteTag(
+  _prevState: TagFormState,
+  formData: FormData,
+): Promise<TagFormState> {
+  const validatedTagId = tagIdSchema.safeParse(formData.get("id"));
+
+  if (!validatedTagId.success) {
+    return {
+      success: false,
+      message: "削除対象のタグが正しくありません",
+    };
+  }
+
+  try {
+    await prisma.tag.delete({
+      where: {
+        id: validatedTagId.data,
+      },
+    });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return {
+        success: false,
+        message: "タグが見つかりませんでした",
+      };
+    }
+
+    throw error;
+  }
+
+  revalidatePath("/dashboard/tags");
+
+  return {
+    success: true,
+    message: "タグを削除しました",
+  };
+}
