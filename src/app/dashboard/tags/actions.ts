@@ -8,7 +8,6 @@ import { prisma } from "@/src/lib/prisma";
 const tagSchema = z.object({
   name: z.string().trim().min(1, { error: "タグ名は必須です" }),
   slug: z.string().trim().optional(),
-  description: z.string().trim().optional(),
 });
 
 const tagIdSchema = z.coerce.number().int().positive();
@@ -18,7 +17,6 @@ export type TagFormState = {
   errors?: {
     name?: string[];
     slug?: string[];
-    description?: string[];
   };
   message: string;
 };
@@ -30,7 +28,6 @@ export async function createTag(
   const validatedTagFields = tagSchema.safeParse({
     name: formData.get("name"),
     slug: formData.get("slug"),
-    description: formData.get("description"),
   });
 
   if (!validatedTagFields.success) {
@@ -42,7 +39,7 @@ export async function createTag(
     };
   }
 
-  const { name, description } = validatedTagFields.data;
+  const { name } = validatedTagFields.data;
   const slug = validatedTagFields.data.slug || name;
 
   try {
@@ -50,7 +47,6 @@ export async function createTag(
       data: {
         name,
         slug,
-        description,
       },
     });
   } catch (error) {

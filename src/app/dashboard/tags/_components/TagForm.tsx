@@ -39,19 +39,13 @@ export default function TagForm({ action, initialState }: TagFormProps) {
             className="w-full rounded-md border border-divider bg-white px-3 py-2 text-sm" required
           />
         </div>
-        <div className="flex flex-col gap-2 mt-4">
+        <div className="mt-4 flex flex-col gap-2">
           <label htmlFor="slug">スラッグ</label>
-          <input type="text" name="slug" id="slug"
-          className="w-full rounded-md border border-divider bg-white px-3 py-2 text-sm"
+          <input  type="text" name="slug" id="slug"
+            className="w-full rounded-md border border-divider bg-white px-3 py-2 text-sm"
           />
         </div>
-        <div className="flex flex-col gap-2 mt-4">
-          <label htmlFor="description">説明</label>
-          <input type="text" name="description" id="description"
-          className="w-full rounded-md border border-divider bg-white px-3 py-2 text-sm"
-          />
-        </div>
-        <Button 
+        <Button
           variant="primary"
           type="submit"
           className="mt-8 w-full py-2.5"
@@ -60,5 +54,5 @@ export default function TagForm({ action, initialState }: TagFormProps) {
         </Button>
       </form>
     </>
-  )
+  );
 }

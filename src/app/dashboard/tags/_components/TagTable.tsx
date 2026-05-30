@@ -53,7 +53,7 @@ export default function TagTable({ allTags }: TagTableProps) {
         {allTags.map((tag) => (
           <div
             key={tag.id}
-            className="flex min-h-44 flex-col justify-between rounded-lg border border-divider bg-white p-4 shadow-sm"
+            className="flex min-h-36 flex-col justify-between rounded-lg border border-divider bg-white p-4 shadow-sm"
           >
             <div>
               <div className="flex items-start justify-between gap-3">
@@ -67,9 +67,6 @@ export default function TagTable({ allTags }: TagTableProps) {
               </div>
 
               <p className="mt-2 break-all text-sm text-gray">tags/{tag.slug}</p>
-              <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
-                {tag.description || "説明は未設定です。"}
-              </p>
             </div>
 
             <div className="mt-5 flex gap-2 border-t border-slate-100 pt-4">
