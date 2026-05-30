@@ -23,15 +23,6 @@ export default function TagTable({ allTags }: TagTableProps) {
   const [state, tagFormAction] = useActionState(deleteTag, initialState);
   const deleteTargetTag = allTags.find((tag) => tag.id === deleteTagId);
 
-  const message = state.message ? (
-    <p
-      className="fixed left-1/2 top-6 z-60 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-bold text-red-700 shadow-lg"
-      aria-live="polite"
-    >
-      {state.message}
-    </p>
-  ) : null;
-
   if (allTags.length === 0) {
     return (
       <div className="mt-4 rounded-lg border border-dashed border-divider bg-white px-6 py-10 text-center">
@@ -48,7 +39,15 @@ export default function TagTable({ allTags }: TagTableProps) {
 
   return (
     <>
-      {message}
+      {state.message && (
+        <p
+          className="fixed left-1/2 top-6 z-60 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-bold text-red-700 shadow-lg"
+          aria-live="polite"
+        >
+          {state.message}
+        </p>
+      )}
+
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {allTags.map((tag) => (
           <div
