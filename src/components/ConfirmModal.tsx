@@ -39,8 +39,8 @@ export default function ConfirmModal({ id, name, count, type, deleteAction, onCa
           削除する
         </Button>
         <Button
-          variant="default"
-          className="mt-3 flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white py-2.5 text-slate-700"
+          variant="outline"
+          className="mt-3 flex w-full items-center justify-center rounded-lg py-2.5"
           onClick={onCancel}
         >
           キャンセル
