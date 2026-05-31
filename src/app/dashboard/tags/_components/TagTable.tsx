@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Edit3, Hash, Trash2 } from "lucide-react";
@@ -6,6 +7,7 @@ import Button from "@/src/components/Button";
 import ConfirmModal from "@/src/components/ConfirmModal";
 import { useActionState, useState } from "react";
 import { deleteTag, type TagFormState } from "../actions";
+import TagEditModal from "./TagEditModal";
 
 type AllTags = Awaited<ReturnType<typeof getAllTags>>;
 
@@ -20,8 +22,10 @@ const initialState: TagFormState = {
 
 export default function TagTable({ allTags }: TagTableProps) {
   const [deleteTagId, setDeleteTagId] = useState<number | null>(null);
-  const [state, tagFormAction] = useActionState(deleteTag, initialState);
+  const [editTagId, setEditTagId] = useState<number | null>(null);
+  const [state, deleteTagAction] = useActionState(deleteTag, initialState);
   const deleteTargetTag = allTags.find((tag) => tag.id === deleteTagId);
+  const editTargetTag = allTags.find((tag) => tag.id === editTagId);
 
   if (allTags.length === 0) {
     return (
@@ -72,6 +76,7 @@ export default function TagTable({ allTags }: TagTableProps) {
               <Button
                 variant="default"
                 className="flex flex-1 items-center justify-center gap-1.5 px-3"
+                onClick={() => setEditTagId(tag.id)}
               >
                 <Edit3 className="size-4" aria-hidden="true" />
                 編集
@@ -89,13 +94,20 @@ export default function TagTable({ allTags }: TagTableProps) {
         ))}
       </div>
 
+      {editTargetTag  && (
+        <TagEditModal
+          editTargetTag={editTargetTag}
+          onCancel={() => setEditTagId(null)}
+        />
+      )}
+
       {deleteTargetTag && (
         <ConfirmModal
           id={deleteTargetTag.id}
           name={deleteTargetTag.name}
           count={deleteTargetTag._count.posts}
           type="tag"
-          deleteAction={tagFormAction}
+          deleteAction={deleteTagAction}
           onCancel={() => setDeleteTagId(null)}
         />
       )}

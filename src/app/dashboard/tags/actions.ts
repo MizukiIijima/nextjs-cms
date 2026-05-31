@@ -71,7 +71,62 @@ export async function createTag(
   };
 }
 
-export async function editTag() {}
+export async function editTag(
+  _prevState: TagFormState,
+  formData: FormData,
+): Promise<TagFormState> {
+  const validatedTagId = tagIdSchema.safeParse(formData.get("id"));
+  const validatedTagFields = tagSchema.safeParse({
+    name: formData.get("name"),
+    slug: formData.get("slug"),
+  });
+
+  if (!validatedTagId.success || !validatedTagFields.success) {
+    const fieldErrors = validatedTagFields.success
+      ? {}
+      : z.flattenError(validatedTagFields.error).fieldErrors;
+
+    return {
+      success: false,
+      errors: fieldErrors,
+      message: "入力内容を確認してください",
+    };
+  }
+
+  const { name } = validatedTagFields.data;
+  const slug = validatedTagFields.data.slug || name;
+
+  try {
+    await prisma.tag.update({
+      where: {
+        id: validatedTagId.data,
+      },
+      data: {
+        name,
+        slug,
+      },
+    });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return {
+        success: false,
+        message: "同じ名前またはslugのタグが既にあります",
+      };
+
+      throw error;
+    }
+  }
+
+  revalidatePath("/dashboard/tags");
+
+  return {
+    success: true,
+    message: "タグを更新しました",
+  };
+}
 
 export async function deleteTag(
   _prevState: TagFormState,
