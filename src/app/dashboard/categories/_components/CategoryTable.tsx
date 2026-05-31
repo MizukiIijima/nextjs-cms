@@ -89,9 +89,7 @@ export default function CategoryTable({ allCategories }: { allCategories: Catego
 
       {deleteTargetCategory && (
         <ConfirmModal
-          id={deleteTargetCategory.id}
-          name={deleteTargetCategory.name}
-          count={deleteTargetCategory._count.posts}
+          target={deleteTargetCategory}
           type="category"
           deleteAction={deleteCategory.bind(null, deleteTargetCategory.id)}
           onCancel={() => setDeleteCategoryId(null)}

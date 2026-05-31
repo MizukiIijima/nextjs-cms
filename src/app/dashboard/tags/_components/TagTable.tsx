@@ -103,9 +103,7 @@ export default function TagTable({ allTags }: TagTableProps) {
 
       {deleteTargetTag && (
         <ConfirmModal
-          id={deleteTargetTag.id}
-          name={deleteTargetTag.name}
-          count={deleteTargetTag._count.posts}
+          target={deleteTargetTag}
           type="tag"
           deleteAction={deleteTagAction}
           onCancel={() => setDeleteTagId(null)}
