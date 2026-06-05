@@ -88,6 +88,40 @@ export default function PostForm(props: FormProps) {
 
       <aside className="space-y-4">
         <div className="rounded-lg border border-divider bg-white p-4 shadow-sm">
+          <h2 className="text-base font-bold">公開設定</h2>
+          <div className="mt-3 space-y-3">
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-sm font-medium text-gray-500">状態</h3>
+              <p className="rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-bold text-green-700">
+                -
+              </p>
+            </div>
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-sm font-medium text-gray-500">公開日</h3>
+              <p className="text-sm font-bold text-gray-900">-</p>
+            </div>
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-sm font-medium text-gray-500">更新日</h3>
+              <p className="text-sm font-bold text-gray-900">-</p>
+            </div>
+          </div>
+          <div className="mt-5 flex gap-2">
+            <button
+              type="button"
+              className="rounded-full border border-divider bg-white px-5 py-2 text-sm font-medium text-gray-900 transition-colors hover:bg-gray-50"
+            >
+              プレビュー
+            </button>
+            <button
+              type="submit"
+              className="rounded-full border border-divider bg-white px-5 py-2 text-sm font-medium text-gray-900 transition-colors hover:bg-gray-50"
+            >
+              更新
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-divider bg-white p-4 shadow-sm">
           <h2 className="text-base font-bold">カテゴリ</h2>
           <div className="mt-3 space-y-2">
             {allCategories.map((category) => {
