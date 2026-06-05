@@ -16,6 +16,8 @@ export type CreatePostState = {
 const postSchema = z.object({
   title: z.string().trim().min(1, { error: "タイトルは必須です" }),
   content: z.string().trim().min(1, { error: "本文は必須です" }),
+  categoryIds: z.array(z.coerce.number().int().positive()),
+  tagIds: z.array(z.coerce.number().int().positive()),
 });
 
 export async function createPostAction(
@@ -25,6 +27,8 @@ export async function createPostAction(
   const validatedPostFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
+    categoryIds: formData.getAll("categoryIds"),
+    tagIds: formData.getAll("tagIds"),
   });
 
   if (!validatedPostFields.success) {
@@ -35,13 +39,19 @@ export async function createPostAction(
     };
   }
 
-  const { title, content } = validatedPostFields.data;
+  const { title, content, categoryIds, tagIds } = validatedPostFields.data;
 
   try {
     await prisma.post.create({
       data: {
         title,
         content,
+        categories: {
+          connect: categoryIds.map((id) => ({ id })),
+        },
+        tags: {
+          connect: tagIds.map((id) => ({ id })),
+        },
       },
     });
 
@@ -72,6 +82,8 @@ export async function editPostAction(
   const validatedPostFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
+    categoryIds: formData.getAll("categoryIds"),
+    tagIds: formData.getAll("tagIds"),
   });
 
   if (!validatedPostFields.success) {
@@ -82,13 +94,19 @@ export async function editPostAction(
     };
   }
 
-  const { title, content } = validatedPostFields.data;
+  const { title, content, categoryIds, tagIds } = validatedPostFields.data;
 
   await prisma.post.update({
     where: { id },
     data: {
       title,
       content,
+      categories: {
+        set: categoryIds.map((id) => ({ id })),
+      },
+      tags: {
+        set: tagIds.map((id) => ({ id })),
+      },
     },
   });
 
