@@ -7,7 +7,7 @@ import {
   createPostAction,
   editPostAction,
   type CreatePostState,
-} from "@/src/app/dashboard/posts/actions";
+} from "@/src/app/(admin)/dashboard/posts/actions";
 import type { Category, Tag } from "../generated/prisma/client";
 
 type FormProps =

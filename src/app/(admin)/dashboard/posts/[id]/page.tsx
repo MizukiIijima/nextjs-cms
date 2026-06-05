@@ -1,9 +1,13 @@
+import { getAllCategories } from "@/src/lib/category";
+import { getAllTags } from "@/src/lib/tags";
 import { getSinglePost } from "@/src/lib/posts";
 import PostForm from "@/src/components/PostForm";
 
 export default async function PostEditPage({ params }: { params: Promise<{ id: number }> }) {
   const { id } = await params;
   const post = await getSinglePost(Number(id));
+  const allCategories = await getAllCategories();
+  const allTags = await getAllTags();
   const panelClassName = "rounded-lg border border-divider bg-white px-4 py-6";
 
   if (!post) {
@@ -23,6 +27,8 @@ export default async function PostEditPage({ params }: { params: Promise<{ id: n
           mode="edit"
           postTitle={post.title}
           postContent={post.content}
+          allCategories={allCategories}
+          allTags={allTags}
         />
 
         <div className="grow">
