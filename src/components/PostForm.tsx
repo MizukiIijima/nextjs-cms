@@ -124,52 +124,60 @@ export default function PostForm(props: FormProps) {
         <div className="rounded-lg border border-divider bg-white p-4 shadow-sm">
           <h2 className="text-base font-bold">カテゴリ</h2>
           <div className="mt-3 space-y-2">
-            {allCategories.map((category) => {
-              const categoryInputId = `category-${category.id}`;
+            {allCategories.length > 0 ? (
+              allCategories.map((category) => {
+                const categoryInputId = `category-${category.id}`;
 
-              return (
-                <label
-                  key={category.id}
-                  htmlFor={categoryInputId}
-                  className="flex cursor-pointer items-center gap-3 rounded-md border border-divider px-3 py-2 text-sm transition-colors hover:bg-gray-50"
-                >
-                  <input
-                    type="checkbox"
-                    id={categoryInputId}
-                    name="categoryIds"
-                    value={String(category.id)}
-                    className="size-4 rounded border-divider"
-                  />
-                  <span>{category.name}</span>
-                </label>
-              );
-            })}
+                return (
+                  <label
+                    key={category.id}
+                    htmlFor={categoryInputId}
+                    className="flex cursor-pointer items-center gap-3 rounded-md border border-divider px-3 py-2 text-sm transition-colors hover:bg-gray-50"
+                  >
+                    <input
+                      type="checkbox"
+                      id={categoryInputId}
+                      name="categoryIds"
+                      value={String(category.id)}
+                      className="size-4 rounded border-divider"
+                    />
+                    <span>{category.name}</span>
+                  </label>
+                );
+              })
+            ) : (
+              <p className="text-sm text-gray-500">カテゴリが登録されていません</p>
+            )}
           </div>
         </div>
 
         <div className="rounded-lg border border-divider bg-white p-4 shadow-sm">
           <h2 className="text-base font-bold">タグ</h2>
           <div className="mt-3 flex flex-wrap gap-2">
-            {allTags.map((tag) => {
-              const tagInputId = `tag-${tag.id}`;
+            {allTags.length > 0 ? (
+              allTags.map((tag) => {
+                const tagInputId = `tag-${tag.id}`;
 
-              return (
-                <label
-                  key={tag.id}
-                  htmlFor={tagInputId}
-                  className="flex cursor-pointer items-center gap-2 rounded-full border border-divider px-3 py-1.5 text-sm transition-colors hover:bg-gray-50"
-                >
-                  <input
-                    type="checkbox"
-                    id={tagInputId}
-                    name="tagIds"
-                    value={String(tag.id)}
-                    className="size-3.5 rounded border-divider"
-                  />
-                  <span>{tag.name}</span>
-                </label>
-              );
-            })}
+                return (
+                  <label
+                    key={tag.id}
+                    htmlFor={tagInputId}
+                    className="flex cursor-pointer items-center gap-2 rounded-full border border-divider px-3 py-1.5 text-sm transition-colors hover:bg-gray-50"
+                  >
+                    <input
+                      type="checkbox"
+                      id={tagInputId}
+                      name="tagIds"
+                      value={String(tag.id)}
+                      className="size-3.5 rounded border-divider"
+                    />
+                    <span>{tag.name}</span>
+                  </label>
+                );
+              })
+            ) : (
+              <p className="text-sm text-gray-500">タグが登録されていません</p>
+            )}
           </div>
         </div>
 
