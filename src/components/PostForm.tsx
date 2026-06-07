@@ -56,7 +56,18 @@ export default function PostForm(props: FormProps) {
       action={formAction}
       className="mt-6 grid w-full grow gap-6 xl:grid-cols-[minmax(0,1200px)_minmax(480px,560px)]"
     >
-      {state.message && <p className="lg:col-span-2">{state.message}</p>}
+      {state.message && (
+        <div
+          className={`fixed top-6 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border px-4 py-3 text-center text-sm font-bold shadow-lg ${
+            state.success
+              ? "border-blue-200 bg-blue-50 text-blue-700"
+              : "border-red-200 bg-red-50 text-red-700"
+          }`}
+          aria-live="polite"
+        >
+          {state.message}
+        </div>
+      )}
       <div className="space-y-5">
         <div className="flex flex-col gap-2">
           <label htmlFor="title">タイトル</label>
@@ -80,6 +91,8 @@ export default function PostForm(props: FormProps) {
         <Button
           variant="primary"
           type="submit"
+          name="status"
+          value="PUBLISHED"
           className="mx-auto block w-80 max-w-full py-2.5"
         >
           {mode === "create" ? "作成" : "編集"}
@@ -114,9 +127,11 @@ export default function PostForm(props: FormProps) {
             </button>
             <button
               type="submit"
+              name="status"
+              value="DRAFT"
               className="rounded-full border border-divider bg-white px-5 py-2 text-sm font-medium text-gray-900 transition-colors hover:bg-gray-50"
             >
-              更新
+              下書き保存
             </button>
           </div>
         </div>

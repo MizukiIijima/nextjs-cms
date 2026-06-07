@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/src/lib/prisma";
+import { PostStatus } from "@/src/generated/prisma/client";
 
 export type CreatePostState = {
   success: boolean;
@@ -10,12 +11,14 @@ export type CreatePostState = {
   errors: {
     title?: string[];
     content?: string[];
+    status?: string[];
   };
 };
 
 const postSchema = z.object({
   title: z.string().trim().min(1, { error: "タイトルは必須です" }),
   content: z.string().trim().min(1, { error: "本文は必須です" }),
+  status: z.enum(PostStatus),
   categoryIds: z.array(z.coerce.number().int().positive()),
   tagIds: z.array(z.coerce.number().int().positive()),
 });
@@ -27,6 +30,7 @@ export async function createPostAction(
   const validatedPostFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
+    status: formData.get("status") ?? PostStatus.DRAFT,
     categoryIds: formData.getAll("categoryIds"),
     tagIds: formData.getAll("tagIds"),
   });
@@ -39,13 +43,15 @@ export async function createPostAction(
     };
   }
 
-  const { title, content, categoryIds, tagIds } = validatedPostFields.data;
+  const { title, content, status, categoryIds, tagIds } =
+    validatedPostFields.data;
 
   try {
     await prisma.post.create({
       data: {
         title,
         content,
+        status,
         categories: {
           connect: categoryIds.map((id) => ({ id })),
         },
@@ -60,7 +66,10 @@ export async function createPostAction(
 
     return {
       success: true,
-      message: "記事を作成しました",
+      message:
+        status === PostStatus.PUBLISHED
+          ? "記事を作成しました"
+          : "下書き保存しました",
       errors: {},
     };
   } catch (error) {
@@ -82,6 +91,7 @@ export async function editPostAction(
   const validatedPostFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
+    status: formData.get("status") ?? PostStatus.DRAFT,
     categoryIds: formData.getAll("categoryIds"),
     tagIds: formData.getAll("tagIds"),
   });
@@ -94,13 +104,15 @@ export async function editPostAction(
     };
   }
 
-  const { title, content, categoryIds, tagIds } = validatedPostFields.data;
+  const { title, content, status, categoryIds, tagIds } =
+    validatedPostFields.data;
 
   await prisma.post.update({
     where: { id },
     data: {
       title,
       content,
+      status,
       categories: {
         set: categoryIds.map((id) => ({ id })),
       },
@@ -112,7 +124,10 @@ export async function editPostAction(
 
   return {
     success: true,
-    message: "記事を編集しました",
+    message:
+      status === PostStatus.PUBLISHED
+        ? "記事を作成しました"
+        : "下書き保存しました",
     errors: {},
   };
 }

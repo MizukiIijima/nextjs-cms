@@ -1,9 +1,7 @@
-type ButtonProps = {
-  children: React.ReactNode;
+import type { ButtonHTMLAttributes } from "react";
+
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant: "primary" | "danger" | "default" | "outline";
-  type?: "button" | "submit";
-  className?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const buttonStyle = {
@@ -13,13 +11,21 @@ const buttonStyle = {
   outline: "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
 };
 
-export default function Button({ children, variant, type = "button", className, onClick }: ButtonProps) {
+export default function Button({
+  children,
+  variant,
+  type = "button",
+  className,
+  ...props
+}: ButtonProps) {
   return (
     <button
       className={`${buttonStyle[variant]} cursor-pointer rounded-md px-4 py-2 text-sm font-bold transition-colors ${className ?? ""}`}
-      type={type === "submit"? "submit" : "button"}
-      onClick={onClick}
-    >{children}</button>
+      type={type}
+      {...props}
+    >
+      {children}
+    </button>
 
   )
 }
