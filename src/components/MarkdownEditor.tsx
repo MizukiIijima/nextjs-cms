@@ -1,7 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import {
-  MDXEditor,
   headingsPlugin,
   listsPlugin,
   quotePlugin,
@@ -26,6 +26,18 @@ import {
 } from "@mdxeditor/editor";
 
 import "@mdxeditor/editor/style.css";
+
+const MDXEditor = dynamic(
+  () => import("@mdxeditor/editor").then((mod) => mod.MDXEditor),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-80 p-4 text-sm text-gray-500">
+        エディタを読み込み中...
+      </div>
+    ),
+  },
+);
 
 type Props = {
   value: string;
