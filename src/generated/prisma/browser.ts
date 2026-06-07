@@ -47,3 +47,8 @@ export type Media = Prisma.MediaModel
  * 
  */
 export type Comment = Prisma.CommentModel
+/**
+ * Model Profile
+ * 
+ */
+export type Profile = Prisma.ProfileModel
