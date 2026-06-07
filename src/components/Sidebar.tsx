@@ -9,6 +9,7 @@ import {
   LogOut,
   MessageCircle,
   Tags,
+  UserPen,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,6 +24,7 @@ const navItems: NavItem[] = [
   { href: "/dashboard/posts", label: "記事一覧", Icon: FileText },
   { href: "/dashboard/categories", label: "カテゴリ一覧", Icon: FolderTree },
   { href: "/dashboard/tags", label: "タグ一覧", Icon: Tags },
+  { href: "/dashboard/profile", label: "プロフィール編集", Icon: UserPen },
   { href: "/dashboard/medias", label: "メディア管理", Icon: Images },
   { href: "/dashboard/comments", label: "コメント管理", Icon: MessageCircle },
   { href: "/dashboard/logout", label: "ログアウト", Icon: LogOut },
@@ -30,7 +32,7 @@ const navItems: NavItem[] = [
 
 export default function Sidebar() {
   return (
-    <nav aria-label="管理メニュー" className="bg-sidebar w-[200px] shrink-0 py-8 px-4">
+    <nav aria-label="管理メニュー" className="bg-sidebar w-50 shrink-0 py-8 px-4">
       <ul className="space-y-4">
         {navItems.map(({ href, label, Icon }) => (
           <li key={href}>
