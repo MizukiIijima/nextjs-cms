@@ -20,14 +20,24 @@ export type ProfileModel = runtime.Types.Result.DefaultSelection<Prisma.$Profile
 
 export type AggregateProfile = {
   _count: ProfileCountAggregateOutputType | null
+  _avg: ProfileAvgAggregateOutputType | null
+  _sum: ProfileSumAggregateOutputType | null
   _min: ProfileMinAggregateOutputType | null
   _max: ProfileMaxAggregateOutputType | null
+}
+
+export type ProfileAvgAggregateOutputType = {
+  imageId: number | null
+}
+
+export type ProfileSumAggregateOutputType = {
+  imageId: number | null
 }
 
 export type ProfileMinAggregateOutputType = {
   id: string | null
   name: string | null
-  imageUrl: string | null
+  imageId: number | null
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -36,7 +46,7 @@ export type ProfileMinAggregateOutputType = {
 export type ProfileMaxAggregateOutputType = {
   id: string | null
   name: string | null
-  imageUrl: string | null
+  imageId: number | null
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -45,7 +55,7 @@ export type ProfileMaxAggregateOutputType = {
 export type ProfileCountAggregateOutputType = {
   id: number
   name: number
-  imageUrl: number
+  imageId: number
   content: number
   createdAt: number
   updatedAt: number
@@ -53,10 +63,18 @@ export type ProfileCountAggregateOutputType = {
 }
 
 
+export type ProfileAvgAggregateInputType = {
+  imageId?: true
+}
+
+export type ProfileSumAggregateInputType = {
+  imageId?: true
+}
+
 export type ProfileMinAggregateInputType = {
   id?: true
   name?: true
-  imageUrl?: true
+  imageId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
@@ -65,7 +83,7 @@ export type ProfileMinAggregateInputType = {
 export type ProfileMaxAggregateInputType = {
   id?: true
   name?: true
-  imageUrl?: true
+  imageId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
@@ -74,7 +92,7 @@ export type ProfileMaxAggregateInputType = {
 export type ProfileCountAggregateInputType = {
   id?: true
   name?: true
-  imageUrl?: true
+  imageId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
@@ -119,6 +137,18 @@ export type ProfileAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ProfileAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ProfileSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProfileMinAggregateInputType
@@ -149,6 +179,8 @@ export type ProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: ProfileCountAggregateInputType | true
+  _avg?: ProfileAvgAggregateInputType
+  _sum?: ProfileSumAggregateInputType
   _min?: ProfileMinAggregateInputType
   _max?: ProfileMaxAggregateInputType
 }
@@ -156,11 +188,13 @@ export type ProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ProfileGroupByOutputType = {
   id: string
   name: string
-  imageUrl: string | null
+  imageId: number | null
   content: string
   createdAt: Date
   updatedAt: Date
   _count: ProfileCountAggregateOutputType | null
+  _avg: ProfileAvgAggregateOutputType | null
+  _sum: ProfileSumAggregateOutputType | null
   _min: ProfileMinAggregateOutputType | null
   _max: ProfileMaxAggregateOutputType | null
 }
@@ -186,19 +220,21 @@ export type ProfileWhereInput = {
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   id?: Prisma.StringFilter<"Profile"> | string
   name?: Prisma.StringFilter<"Profile"> | string
-  imageUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  imageId?: Prisma.IntNullableFilter<"Profile"> | number | null
   content?: Prisma.StringFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
+  image?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.MediaWhereInput> | null
 }
 
 export type ProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  image?: Prisma.MediaOrderByWithRelationInput
 }
 
 export type ProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -207,22 +243,25 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProfileWhereInput[]
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   name?: Prisma.StringFilter<"Profile"> | string
-  imageUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  imageId?: Prisma.IntNullableFilter<"Profile"> | number | null
   content?: Prisma.StringFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
+  image?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.MediaWhereInput> | null
 }, "id">
 
 export type ProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
+  _avg?: Prisma.ProfileAvgOrderByAggregateInput
   _max?: Prisma.ProfileMaxOrderByAggregateInput
   _min?: Prisma.ProfileMinOrderByAggregateInput
+  _sum?: Prisma.ProfileSumOrderByAggregateInput
 }
 
 export type ProfileScalarWhereWithAggregatesInput = {
@@ -231,7 +270,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProfileScalarWhereWithAggregatesInput | Prisma.ProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   name?: Prisma.StringWithAggregatesFilter<"Profile"> | string
-  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  imageId?: Prisma.IntNullableWithAggregatesFilter<"Profile"> | number | null
   content?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
@@ -240,16 +279,16 @@ export type ProfileScalarWhereWithAggregatesInput = {
 export type ProfileCreateInput = {
   id?: string
   name: string
-  imageUrl?: string | null
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  image?: Prisma.MediaCreateNestedOneWithoutProfilesInput
 }
 
 export type ProfileUncheckedCreateInput = {
   id?: string
   name: string
-  imageUrl?: string | null
+  imageId?: number | null
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -258,16 +297,16 @@ export type ProfileUncheckedCreateInput = {
 export type ProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  image?: Prisma.MediaUpdateOneWithoutProfilesNestedInput
 }
 
 export type ProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -276,7 +315,7 @@ export type ProfileUncheckedUpdateInput = {
 export type ProfileCreateManyInput = {
   id?: string
   name: string
-  imageUrl?: string | null
+  imageId?: number | null
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -285,7 +324,6 @@ export type ProfileCreateManyInput = {
 export type ProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -294,25 +332,39 @@ export type ProfileUpdateManyMutationInput = {
 export type ProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type ProfileListRelationFilter = {
+  every?: Prisma.ProfileWhereInput
+  some?: Prisma.ProfileWhereInput
+  none?: Prisma.ProfileWhereInput
+}
+
+export type ProfileOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type ProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
+  imageId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
+export type ProfileAvgOrderByAggregateInput = {
+  imageId?: Prisma.SortOrder
+}
+
 export type ProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
+  imageId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -321,10 +373,142 @@ export type ProfileMaxOrderByAggregateInput = {
 export type ProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
+  imageId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ProfileSumOrderByAggregateInput = {
+  imageId?: Prisma.SortOrder
+}
+
+export type ProfileCreateNestedManyWithoutImageInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutImageInput, Prisma.ProfileUncheckedCreateWithoutImageInput> | Prisma.ProfileCreateWithoutImageInput[] | Prisma.ProfileUncheckedCreateWithoutImageInput[]
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutImageInput | Prisma.ProfileCreateOrConnectWithoutImageInput[]
+  createMany?: Prisma.ProfileCreateManyImageInputEnvelope
+  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+}
+
+export type ProfileUncheckedCreateNestedManyWithoutImageInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutImageInput, Prisma.ProfileUncheckedCreateWithoutImageInput> | Prisma.ProfileCreateWithoutImageInput[] | Prisma.ProfileUncheckedCreateWithoutImageInput[]
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutImageInput | Prisma.ProfileCreateOrConnectWithoutImageInput[]
+  createMany?: Prisma.ProfileCreateManyImageInputEnvelope
+  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+}
+
+export type ProfileUpdateManyWithoutImageNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutImageInput, Prisma.ProfileUncheckedCreateWithoutImageInput> | Prisma.ProfileCreateWithoutImageInput[] | Prisma.ProfileUncheckedCreateWithoutImageInput[]
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutImageInput | Prisma.ProfileCreateOrConnectWithoutImageInput[]
+  upsert?: Prisma.ProfileUpsertWithWhereUniqueWithoutImageInput | Prisma.ProfileUpsertWithWhereUniqueWithoutImageInput[]
+  createMany?: Prisma.ProfileCreateManyImageInputEnvelope
+  set?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  disconnect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  delete?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  update?: Prisma.ProfileUpdateWithWhereUniqueWithoutImageInput | Prisma.ProfileUpdateWithWhereUniqueWithoutImageInput[]
+  updateMany?: Prisma.ProfileUpdateManyWithWhereWithoutImageInput | Prisma.ProfileUpdateManyWithWhereWithoutImageInput[]
+  deleteMany?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
+}
+
+export type ProfileUncheckedUpdateManyWithoutImageNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutImageInput, Prisma.ProfileUncheckedCreateWithoutImageInput> | Prisma.ProfileCreateWithoutImageInput[] | Prisma.ProfileUncheckedCreateWithoutImageInput[]
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutImageInput | Prisma.ProfileCreateOrConnectWithoutImageInput[]
+  upsert?: Prisma.ProfileUpsertWithWhereUniqueWithoutImageInput | Prisma.ProfileUpsertWithWhereUniqueWithoutImageInput[]
+  createMany?: Prisma.ProfileCreateManyImageInputEnvelope
+  set?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  disconnect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  delete?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+  update?: Prisma.ProfileUpdateWithWhereUniqueWithoutImageInput | Prisma.ProfileUpdateWithWhereUniqueWithoutImageInput[]
+  updateMany?: Prisma.ProfileUpdateManyWithWhereWithoutImageInput | Prisma.ProfileUpdateManyWithWhereWithoutImageInput[]
+  deleteMany?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
+}
+
+export type ProfileCreateWithoutImageInput = {
+  id?: string
+  name: string
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProfileUncheckedCreateWithoutImageInput = {
+  id?: string
+  name: string
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProfileCreateOrConnectWithoutImageInput = {
+  where: Prisma.ProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfileCreateWithoutImageInput, Prisma.ProfileUncheckedCreateWithoutImageInput>
+}
+
+export type ProfileCreateManyImageInputEnvelope = {
+  data: Prisma.ProfileCreateManyImageInput | Prisma.ProfileCreateManyImageInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProfileUpsertWithWhereUniqueWithoutImageInput = {
+  where: Prisma.ProfileWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProfileUpdateWithoutImageInput, Prisma.ProfileUncheckedUpdateWithoutImageInput>
+  create: Prisma.XOR<Prisma.ProfileCreateWithoutImageInput, Prisma.ProfileUncheckedCreateWithoutImageInput>
+}
+
+export type ProfileUpdateWithWhereUniqueWithoutImageInput = {
+  where: Prisma.ProfileWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProfileUpdateWithoutImageInput, Prisma.ProfileUncheckedUpdateWithoutImageInput>
+}
+
+export type ProfileUpdateManyWithWhereWithoutImageInput = {
+  where: Prisma.ProfileScalarWhereInput
+  data: Prisma.XOR<Prisma.ProfileUpdateManyMutationInput, Prisma.ProfileUncheckedUpdateManyWithoutImageInput>
+}
+
+export type ProfileScalarWhereInput = {
+  AND?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
+  OR?: Prisma.ProfileScalarWhereInput[]
+  NOT?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
+  id?: Prisma.StringFilter<"Profile"> | string
+  name?: Prisma.StringFilter<"Profile"> | string
+  imageId?: Prisma.IntNullableFilter<"Profile"> | number | null
+  content?: Prisma.StringFilter<"Profile"> | string
+  createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
+}
+
+export type ProfileCreateManyImageInput = {
+  id?: string
+  name: string
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProfileUpdateWithoutImageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProfileUncheckedUpdateWithoutImageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProfileUncheckedUpdateManyWithoutImageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -332,48 +516,62 @@ export type ProfileMinOrderByAggregateInput = {
 export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  imageUrl?: boolean
+  imageId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  image?: boolean | Prisma.Profile$imageArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  imageUrl?: boolean
+  imageId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  image?: boolean | Prisma.Profile$imageArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  imageUrl?: boolean
+  imageId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  image?: boolean | Prisma.Profile$imageArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
 
 export type ProfileSelectScalar = {
   id?: boolean
   name?: boolean
-  imageUrl?: boolean
+  imageId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "imageUrl" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "imageId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  image?: boolean | Prisma.Profile$imageArgs<ExtArgs>
+}
+export type ProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  image?: boolean | Prisma.Profile$imageArgs<ExtArgs>
+}
+export type ProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  image?: boolean | Prisma.Profile$imageArgs<ExtArgs>
+}
 
 export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Profile"
-  objects: {}
+  objects: {
+    image: Prisma.$MediaPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
-    imageUrl: string | null
+    imageId: number | null
     content: string
     createdAt: Date
     updatedAt: Date
@@ -771,6 +969,7 @@ readonly fields: ProfileFieldRefs;
  */
 export interface Prisma__ProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  image<T extends Prisma.Profile$imageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Profile$imageArgs<ExtArgs>>): Prisma.Prisma__MediaClient<runtime.Types.Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -802,7 +1001,7 @@ export interface Prisma__ProfileClient<T, Null = never, ExtArgs extends runtime.
 export interface ProfileFieldRefs {
   readonly id: Prisma.FieldRef<"Profile", 'String'>
   readonly name: Prisma.FieldRef<"Profile", 'String'>
-  readonly imageUrl: Prisma.FieldRef<"Profile", 'String'>
+  readonly imageId: Prisma.FieldRef<"Profile", 'Int'>
   readonly content: Prisma.FieldRef<"Profile", 'String'>
   readonly createdAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
@@ -823,6 +1022,10 @@ export type ProfileFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  /**
    * Filter, which Profile to fetch.
    */
   where: Prisma.ProfileWhereUniqueInput
@@ -841,6 +1044,10 @@ export type ProfileFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  /**
    * Filter, which Profile to fetch.
    */
   where: Prisma.ProfileWhereUniqueInput
@@ -858,6 +1065,10 @@ export type ProfileFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Profile
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
   /**
    * Filter, which Profile to fetch.
    */
@@ -907,6 +1118,10 @@ export type ProfileFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  /**
    * Filter, which Profile to fetch.
    */
   where?: Prisma.ProfileWhereInput
@@ -954,6 +1169,10 @@ export type ProfileFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Profile
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
   /**
    * Filter, which Profiles to fetch.
    */
@@ -1003,6 +1222,10 @@ export type ProfileCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  /**
    * The data needed to create a Profile.
    */
   data: Prisma.XOR<Prisma.ProfileCreateInput, Prisma.ProfileUncheckedCreateInput>
@@ -1036,6 +1259,10 @@ export type ProfileCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    */
   data: Prisma.ProfileCreateManyInput | Prisma.ProfileCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1050,6 +1277,10 @@ export type ProfileUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Profile
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
   /**
    * The data needed to update a Profile.
    */
@@ -1102,6 +1333,10 @@ export type ProfileUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many Profiles to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1116,6 +1351,10 @@ export type ProfileUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Profile
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
   /**
    * The filter to search for the Profile to update in case it exists.
    */
@@ -1143,6 +1382,10 @@ export type ProfileDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  /**
    * Filter which Profile to delete.
    */
   where: Prisma.ProfileWhereUniqueInput
@@ -1163,6 +1406,25 @@ export type ProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Profile.image
+ */
+export type Profile$imageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Media
+   */
+  select?: Prisma.MediaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Media
+   */
+  omit?: Prisma.MediaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaInclude<ExtArgs> | null
+  where?: Prisma.MediaWhereInput
+}
+
+/**
  * Profile without action
  */
 export type ProfileDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1174,4 +1436,8 @@ export type ProfileDefaultArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Profile
    */
   omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
 }

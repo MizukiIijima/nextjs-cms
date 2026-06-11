@@ -1047,7 +1047,7 @@ export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeo
 export const ProfileScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  imageUrl: 'imageUrl',
+  imageId: 'imageId',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -245,6 +245,7 @@ export type MediaWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Media"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Media"> | Date | string
   posts?: Prisma.PostListRelationFilter
+  profiles?: Prisma.ProfileListRelationFilter
 }
 
 export type MediaOrderByWithRelationInput = {
@@ -257,6 +258,7 @@ export type MediaOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   posts?: Prisma.PostOrderByRelationAggregateInput
+  profiles?: Prisma.ProfileOrderByRelationAggregateInput
 }
 
 export type MediaWhereUniqueInput = Prisma.AtLeast<{
@@ -272,6 +274,7 @@ export type MediaWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Media"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Media"> | Date | string
   posts?: Prisma.PostListRelationFilter
+  profiles?: Prisma.ProfileListRelationFilter
 }, "id">
 
 export type MediaOrderByWithAggregationInput = {
@@ -313,6 +316,7 @@ export type MediaCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutThumbnailInput
+  profiles?: Prisma.ProfileCreateNestedManyWithoutImageInput
 }
 
 export type MediaUncheckedCreateInput = {
@@ -325,6 +329,7 @@ export type MediaUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutThumbnailInput
+  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutImageInput
 }
 
 export type MediaUpdateInput = {
@@ -336,6 +341,7 @@ export type MediaUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutThumbnailNestedInput
+  profiles?: Prisma.ProfileUpdateManyWithoutImageNestedInput
 }
 
 export type MediaUncheckedUpdateInput = {
@@ -348,6 +354,7 @@ export type MediaUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutThumbnailNestedInput
+  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type MediaCreateManyInput = {
@@ -446,6 +453,22 @@ export type MediaUpdateOneWithoutPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MediaUpdateToOneWithWhereWithoutPostsInput, Prisma.MediaUpdateWithoutPostsInput>, Prisma.MediaUncheckedUpdateWithoutPostsInput>
 }
 
+export type MediaCreateNestedOneWithoutProfilesInput = {
+  create?: Prisma.XOR<Prisma.MediaCreateWithoutProfilesInput, Prisma.MediaUncheckedCreateWithoutProfilesInput>
+  connectOrCreate?: Prisma.MediaCreateOrConnectWithoutProfilesInput
+  connect?: Prisma.MediaWhereUniqueInput
+}
+
+export type MediaUpdateOneWithoutProfilesNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaCreateWithoutProfilesInput, Prisma.MediaUncheckedCreateWithoutProfilesInput>
+  connectOrCreate?: Prisma.MediaCreateOrConnectWithoutProfilesInput
+  upsert?: Prisma.MediaUpsertWithoutProfilesInput
+  disconnect?: Prisma.MediaWhereInput | boolean
+  delete?: Prisma.MediaWhereInput | boolean
+  connect?: Prisma.MediaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaUpdateToOneWithWhereWithoutProfilesInput, Prisma.MediaUpdateWithoutProfilesInput>, Prisma.MediaUncheckedUpdateWithoutProfilesInput>
+}
+
 export type MediaCreateWithoutPostsInput = {
   fileName: string
   url: string
@@ -454,6 +477,7 @@ export type MediaCreateWithoutPostsInput = {
   size?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  profiles?: Prisma.ProfileCreateNestedManyWithoutImageInput
 }
 
 export type MediaUncheckedCreateWithoutPostsInput = {
@@ -465,6 +489,7 @@ export type MediaUncheckedCreateWithoutPostsInput = {
   size?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutImageInput
 }
 
 export type MediaCreateOrConnectWithoutPostsInput = {
@@ -491,6 +516,7 @@ export type MediaUpdateWithoutPostsInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profiles?: Prisma.ProfileUpdateManyWithoutImageNestedInput
 }
 
 export type MediaUncheckedUpdateWithoutPostsInput = {
@@ -502,6 +528,69 @@ export type MediaUncheckedUpdateWithoutPostsInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutImageNestedInput
+}
+
+export type MediaCreateWithoutProfilesInput = {
+  fileName: string
+  url: string
+  altText?: string | null
+  mimeType?: string | null
+  size?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  posts?: Prisma.PostCreateNestedManyWithoutThumbnailInput
+}
+
+export type MediaUncheckedCreateWithoutProfilesInput = {
+  id?: number
+  fileName: string
+  url: string
+  altText?: string | null
+  mimeType?: string | null
+  size?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutThumbnailInput
+}
+
+export type MediaCreateOrConnectWithoutProfilesInput = {
+  where: Prisma.MediaWhereUniqueInput
+  create: Prisma.XOR<Prisma.MediaCreateWithoutProfilesInput, Prisma.MediaUncheckedCreateWithoutProfilesInput>
+}
+
+export type MediaUpsertWithoutProfilesInput = {
+  update: Prisma.XOR<Prisma.MediaUpdateWithoutProfilesInput, Prisma.MediaUncheckedUpdateWithoutProfilesInput>
+  create: Prisma.XOR<Prisma.MediaCreateWithoutProfilesInput, Prisma.MediaUncheckedCreateWithoutProfilesInput>
+  where?: Prisma.MediaWhereInput
+}
+
+export type MediaUpdateToOneWithWhereWithoutProfilesInput = {
+  where?: Prisma.MediaWhereInput
+  data: Prisma.XOR<Prisma.MediaUpdateWithoutProfilesInput, Prisma.MediaUncheckedUpdateWithoutProfilesInput>
+}
+
+export type MediaUpdateWithoutProfilesInput = {
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostUpdateManyWithoutThumbnailNestedInput
+}
+
+export type MediaUncheckedUpdateWithoutProfilesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostUncheckedUpdateManyWithoutThumbnailNestedInput
 }
 
 
@@ -511,10 +600,12 @@ export type MediaUncheckedUpdateWithoutPostsInput = {
 
 export type MediaCountOutputType = {
   posts: number
+  profiles: number
 }
 
 export type MediaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | MediaCountOutputTypeCountPostsArgs
+  profiles?: boolean | MediaCountOutputTypeCountProfilesArgs
 }
 
 /**
@@ -534,6 +625,13 @@ export type MediaCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.PostWhereInput
 }
 
+/**
+ * MediaCountOutputType without action
+ */
+export type MediaCountOutputTypeCountProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProfileWhereInput
+}
+
 
 export type MediaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -545,6 +643,7 @@ export type MediaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdAt?: boolean
   updatedAt?: boolean
   posts?: boolean | Prisma.Media$postsArgs<ExtArgs>
+  profiles?: boolean | Prisma.Media$profilesArgs<ExtArgs>
   _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
 
@@ -584,6 +683,7 @@ export type MediaSelectScalar = {
 export type MediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fileName" | "url" | "altText" | "mimeType" | "size" | "createdAt" | "updatedAt", ExtArgs["result"]["media"]>
 export type MediaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.Media$postsArgs<ExtArgs>
+  profiles?: boolean | Prisma.Media$profilesArgs<ExtArgs>
   _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MediaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -593,6 +693,7 @@ export type $MediaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Media"
   objects: {
     posts: Prisma.$PostPayload<ExtArgs>[]
+    profiles: Prisma.$ProfilePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -998,6 +1099,7 @@ readonly fields: MediaFieldRefs;
 export interface Prisma__MediaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   posts<T extends Prisma.Media$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Media$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profiles<T extends Prisma.Media$profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Media$profilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1449,6 +1551,30 @@ export type Media$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.PostScalarFieldEnum | Prisma.PostScalarFieldEnum[]
+}
+
+/**
+ * Media.profiles
+ */
+export type Media$profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Profile
+   */
+  select?: Prisma.ProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Profile
+   */
+  omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  where?: Prisma.ProfileWhereInput
+  orderBy?: Prisma.ProfileOrderByWithRelationInput | Prisma.ProfileOrderByWithRelationInput[]
+  cursor?: Prisma.ProfileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProfileScalarFieldEnum | Prisma.ProfileScalarFieldEnum[]
 }
 
 /**
