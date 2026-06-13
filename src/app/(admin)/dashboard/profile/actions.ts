@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { success, z } from "zod";
+import { z } from "zod";
 import { prisma } from "@/src/lib/prisma";
 import { put } from "@vercel/blob";
 import { randomUUID } from "node:crypto";
@@ -19,12 +19,16 @@ async function saveImage(file: File) {
     access: "public",
   });
 
-  return blob.url;
+  return {
+    fileName,
+    url: blob.url,
+    mimeType: file.type,
+    size: file.size,
+  };
 }
 
 export async function createAction(formData: FormData) {
   const validatedFields = profileSchema.safeParse({
-    image: formData.get("image"),
     name: formData.get("name"),
     content: formData.get("content"),
   });
@@ -32,7 +36,7 @@ export async function createAction(formData: FormData) {
   if (!validatedFields.success) {
     return {
       success: false,
-      error: validatedFields.error.flatten().fieldErrors,
+      errors: validatedFields.error.flatten().fieldErrors,
       message: "入力内容を確認してください",
     };
   }
@@ -40,28 +44,61 @@ export async function createAction(formData: FormData) {
   const { name, content } = validatedFields.data;
 
   const image = formData.get("image");
-  let imageUrl: string | undefined;
 
-  if (image instanceof File && image.size > 0) {
-    if (!image.type.startsWith("image/")) {
-      return {
-        success: false,
-        errors: {
-          image: ["画像ファイルを選択してください"],
-        },
-        message: "入力内容を確認してください",
-      }
-    }
-    imageUrl = await saveImage(image);
+  if (
+    image instanceof File &&
+    image.size > 0 &&
+    !image.type.startsWith("image/")
+  ) {
+    return {
+      success: false,
+      errors: {
+        image: ["画像ファイルを選択してください"],
+      },
+      message: "入力内容を確認してください",
+    };
   }
 
   try {
+    let imageId: number | undefined;
+
+    if (image instanceof File && image.size > 0) {
+      const savedImage = await saveImage(image);
+
+      const media = await prisma.media.create({
+        data: {
+          fileName: savedImage.fileName,
+          url: savedImage.url,
+          mimeType: savedImage.mimeType,
+          size: savedImage.size,
+        },
+      });
+
+      imageId = media.id;
+    }
+
     await prisma.profile.create({
       data: {
-        imageUrl,
         name,
-        content
-      }
-    })
+        content,
+        imageId,
+      },
+    });
+
+    revalidatePath("/dashboard/profile");
+
+    return {
+      success: true,
+      errors: {},
+      message: "プロフィールを保存しました",
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      errors: {},
+      message: "プロフィールの保存に失敗しました",
+    };
   }
 }
