@@ -3,8 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/src/lib/prisma";
-import { put } from "@vercel/blob";
-import { randomUUID } from "node:crypto";
+import { createMediaFromImage } from "@/src/lib/medias";
 
 export type ProfileState = {
   success: boolean;
@@ -44,37 +43,6 @@ const profileSchema = z.object({
   image: imageSchema,
 });
 
-async function saveImage(file: File) {
-  const ext = file.name.split(".").pop() ?? "png";
-  const fileName = `${randomUUID()}.${ext}`;
-
-  const blob = await put(`profile/${fileName}`, file, {
-    access: "public",
-  });
-
-  return {
-    fileName,
-    url: blob.url,
-    mimeType: file.type,
-    size: file.size,
-  };
-}
-
-async function createMediaFromImage(file: File) {
-  const savedImage = await saveImage(file);
-
-  const media = await prisma.media.create({
-    data: {
-      fileName: savedImage.fileName,
-      url: savedImage.url,
-      mimeType: savedImage.mimeType,
-      size: savedImage.size,
-    },
-  });
-
-  return media.id;
-}
-
 export async function createAction(
   _prevState: ProfileState,
   formData: FormData,
@@ -99,7 +67,7 @@ export async function createAction(
     let imageId: number | undefined;
 
     if (image) {
-      imageId = await createMediaFromImage(image);
+      imageId = await createMediaFromImage(image, "profile");
     }
 
     await prisma.profile.create({
@@ -153,7 +121,7 @@ export async function editProfile(
     let imageId: number | undefined;
 
     if (image) {
-      imageId = await createMediaFromImage(image);
+      imageId = await createMediaFromImage(image, "profile");
     }
 
     await prisma.profile.update({

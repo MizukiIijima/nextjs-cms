@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/src/lib/prisma";
 import { PostStatus } from "@/src/generated/prisma/client";
-import { put } from "@vercel/blob";
-import { randomUUID } from "node:crypto";
+import { createMediaFromImage } from "@/src/lib/medias";
 
 export type CreatePostState = {
   success: boolean;
@@ -49,37 +48,6 @@ const postSchema = z.object({
   thumbnail: thumbnailSchema,
 });
 
-async function saveImage(file: File) {
-  const ext = file.name.split(".").pop() ?? "png";
-  const fileName = `${randomUUID()}.${ext}`;
-
-  const blob = await put(`posts/${fileName}`, file, {
-    access: "public",
-  });
-
-  return {
-    fileName,
-    url: blob.url,
-    mimeType: file.type,
-    size: file.size,
-  };
-}
-
-async function createMediaFromImage(file: File) {
-  const savedImage = await saveImage(file);
-
-  const media = await prisma.media.create({
-    data: {
-      fileName: savedImage.fileName,
-      url: savedImage.url,
-      mimeType: savedImage.mimeType,
-      size: savedImage.size,
-    },
-  });
-
-  return media.id;
-}
-
 export async function createPostAction(
   _prevState: CreatePostState,
   formData: FormData,
@@ -108,7 +76,7 @@ export async function createPostAction(
     let thumbnailId: number | undefined;
 
     if (thumbnail) {
-      thumbnailId = await createMediaFromImage(thumbnail);
+      thumbnailId = await createMediaFromImage(thumbnail, "posts");
     }
 
     await prisma.post.create({
@@ -177,7 +145,7 @@ export async function editPostAction(
     let thumbnailId: number | undefined;
 
     if (thumbnail) {
-      thumbnailId = await createMediaFromImage(thumbnail);
+      thumbnailId = await createMediaFromImage(thumbnail, "posts");
     }
 
     await prisma.post.update({
