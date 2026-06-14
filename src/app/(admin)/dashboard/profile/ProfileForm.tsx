@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useState, useActionState } from "react";
-import { createAction, type ProfileState } from "./actions";
-import type { Profile } from "@/src/generated/prisma/client";
+import { createAction, editProfile, type ProfileState } from "./actions";
+import type { Prisma } from "@/src/generated/prisma/client";
 import Image from "next/image";
 import Button from "@/src/components/Button";
+
+type ProfileWithImage = Prisma.ProfileGetPayload<{
+  include: {
+    image: true;
+  };
+}>;
 
 const initialState: ProfileState = {
   success: false,
@@ -12,14 +18,22 @@ const initialState: ProfileState = {
   errors: {},
 };
 
-export default function ProfileForm({ profile }: { profile: Profile | null }) {
+export default function ProfileForm({
+  profile,
+}: {
+  profile: ProfileWithImage | null;
+}) {
   const [fileName, setFileName] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
   const [formValue, setFormValue] = useState({
     name: profile?.name ?? "",
     content: profile?.content ?? "",
   });
-  const [state, formAction] = useActionState(createAction, initialState);
+  const profileAction = profile
+    ? editProfile.bind(null, profile.id)
+    : createAction;
+  const [state, formAction] = useActionState(profileAction, initialState);
+  const imageUrl = previewUrl || profile?.image?.url;
 
   useEffect(() => {
     return () => {
@@ -56,9 +70,9 @@ export default function ProfileForm({ profile }: { profile: Profile | null }) {
           className="flex cursor-pointer items-center gap-4 rounded-md border border-divider bg-white p-4 transition-colors hover:bg-gray-50"
         >
           <span className="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100">
-            {previewUrl ? (
+            {imageUrl ? (
               <Image
-                src={previewUrl}
+                src={imageUrl}
                 alt=""
                 width={80}
                 height={80}
@@ -71,7 +85,7 @@ export default function ProfileForm({ profile }: { profile: Profile | null }) {
           </span>
           <span className="min-w-0 space-y-1">
             <span className="block truncate text-sm font-medium text-slate-900">
-              {fileName || "画像を選択"}
+              {fileName || profile?.image?.fileName || "画像を選択"}
             </span>
             <span className="block text-xs text-slate-500">
               JPG, PNG, WebP などの画像ファイル
@@ -107,16 +121,13 @@ export default function ProfileForm({ profile }: { profile: Profile | null }) {
             setFormValue({
               ...formValue,
               name: e.target.value,
-            })
+            });
           }}
         />
       </div>
 
       <div className="space-y-2">
-        <label
-          htmlFor="content"
-          className="text-sm font-bold text-slate-900"
-        >
+        <label htmlFor="content" className="text-sm font-bold text-slate-900">
           プロフィール
         </label>
         <textarea
@@ -129,7 +140,7 @@ export default function ProfileForm({ profile }: { profile: Profile | null }) {
             setFormValue({
               ...formValue,
               content: e.target.value,
-            })
+            });
           }}
         />
       </div>
@@ -140,5 +151,5 @@ export default function ProfileForm({ profile }: { profile: Profile | null }) {
         </Button>
       </div>
     </form>
-  )
+  );
 }
