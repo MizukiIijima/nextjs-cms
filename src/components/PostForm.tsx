@@ -25,10 +25,12 @@ type FormProps =
       postContent: string;
       allCategories: Category[];
       allTags: Tag[];
+      thumbnail: string | null;
     };
 
 export default function PostForm(props: FormProps) {
   const { mode, postTitle, postContent, allCategories, allTags } = props;
+  const thumbnailUrl = mode === "edit" ? props.thumbnail : null;
   const initialState: CreatePostState = {
     success: false,
     message: "",
@@ -41,6 +43,7 @@ export default function PostForm(props: FormProps) {
   const [content, setContent] = useState(postContent);
   const [fileName, setFileName] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
+  const currentThumbnailUrl = previewUrl || thumbnailUrl;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -198,11 +201,11 @@ export default function PostForm(props: FormProps) {
 
         <div className="rounded-lg border border-divider bg-white p-4 shadow-sm">
           <h2 className="text-base font-bold">アイキャッチ画像</h2>
-          {previewUrl ? (
+          {currentThumbnailUrl ? (
             <div className="mt-3 space-y-3">
               <div
                 className="aspect-video w-full rounded-md bg-gray-100 bg-cover bg-center"
-                style={{ backgroundImage: `url(${previewUrl})` }}
+                style={{ backgroundImage: `url(${currentThumbnailUrl})` }}
               />
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 {fileName && (
@@ -250,7 +253,7 @@ export default function PostForm(props: FormProps) {
             type="file"
             name="thumbnail"
             id="thumbnail"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp"
             className="sr-only"
             onChange={(e) => {
               const file = e.target.files?.[0];

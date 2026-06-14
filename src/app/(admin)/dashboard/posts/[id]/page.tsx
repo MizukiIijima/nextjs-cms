@@ -8,7 +8,6 @@ export default async function PostEditPage({ params }: { params: Promise<{ id: n
   const post = await getSinglePost(Number(id));
   const allCategories = await getAllCategories();
   const allTags = await getAllTags();
-  const panelClassName = "rounded-lg border border-divider bg-white px-4 py-6";
 
   if (!post) {
     return (
@@ -29,6 +28,7 @@ export default async function PostEditPage({ params }: { params: Promise<{ id: n
           postContent={post.content}
           allCategories={allCategories}
           allTags={allTags}
+          thumbnail={post.thumbnail?.url ?? null}
         />
 
       </div>

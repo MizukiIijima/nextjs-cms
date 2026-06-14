@@ -7,6 +7,7 @@ export type PostWithCategory = Prisma.PostGetPayload<{
   include: {
     categories: true;
     tags: true;
+    thumbnail: true;
   };
 }>;
 
@@ -18,6 +19,7 @@ export async function getSinglePost(
     include: {
       categories: true,
       tags: true,
+      thumbnail: true,
     },
   });
 }
@@ -27,6 +29,7 @@ export async function getAllPosts(): Promise<PostWithCategory[]> {
     include: {
       categories: true,
       tags: true,
+      thumbnail: true,
     },
     orderBy: {
       createdAt: "desc",
