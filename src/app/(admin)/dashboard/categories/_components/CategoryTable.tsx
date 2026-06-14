@@ -9,7 +9,7 @@ import ConfirmModal from "@/src/components/ConfirmModal";
 
 type CategoryList = Awaited<ReturnType<typeof getAllCategories>>;
 
-const thStyle = "py-3 px-4 text-left font-bold text-slate-600";
+const thStyle = "py-3 px-4 text-left text-xs font-bold text-slate-600";
 const tdStyle = "py-3 px-4 text-sm text-slate-700 break-words";
 
 export default function CategoryTable({ allCategories }: { allCategories: CategoryList }) {

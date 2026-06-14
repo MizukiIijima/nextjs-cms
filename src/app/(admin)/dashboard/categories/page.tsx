@@ -18,7 +18,7 @@ export default async function CategoryPage() {
       <h1 className="mt-2 font-bold text-3xl">カテゴリ一覧</h1>
       <div className="mt-8 flex justify-between gap-10 items-start">
         <div>
-          <h2 className="font-bold text-xl">カテゴリを追加</h2>
+          <h2 className="font-bold text-base">カテゴリを追加</h2>
           <p className="text-sm text-gray">記事の大分類を作成します。公開側のカテゴリページにも表示されます。</p>
 
           <CategoryForm 
@@ -27,7 +27,7 @@ export default async function CategoryPage() {
         </div>
 
         <div className="grow">
-          <h2 className="font-bold text-xl">登録済みカテゴリ</h2>
+          <h2 className="font-bold text-base">登録済みカテゴリ</h2>
           <div className="mt-4 overflow-hidden rounded-xl border border-slate-200">
           <CategoryTable
             allCategories={allCategories}

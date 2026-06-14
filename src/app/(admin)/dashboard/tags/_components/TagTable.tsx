@@ -31,7 +31,7 @@ export default function TagTable({ allTags }: TagTableProps) {
     return (
       <div className="mt-4 rounded-lg border border-dashed border-divider bg-white px-6 py-10 text-center">
         <Hash className="mx-auto size-8 text-gray" aria-hidden="true" />
-        <p className="mt-3 font-bold text-slate-700">
+        <p className="mt-3 text-sm font-bold text-slate-700">
           登録済みのタグはありません
         </p>
         <p className="mt-1 text-sm text-gray">
@@ -60,7 +60,7 @@ export default function TagTable({ allTags }: TagTableProps) {
           >
             <div>
               <div className="flex items-start justify-between gap-3">
-                <h3 className="wrap-break-word text-lg font-bold leading-snug text-slate-900">
+                <h3 className="wrap-break-word text-sm font-bold leading-snug text-slate-900">
                   <span className="text-gray"># </span>
                   {tag.name}
                 </h3>

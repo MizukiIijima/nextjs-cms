@@ -17,7 +17,7 @@ export default async function TagPage() {
       <h1 className="mt-2 font-bold text-3xl">タグ一覧</h1>
       <div className="mt-8 flex justify-between gap-10 items-start">
         <div className="w-80 shrink-0">
-          <h2 className="font-bold text-xl">タグを追加</h2>
+          <h2 className="font-bold text-base">タグを追加</h2>
           <p className="text-sm text-gray">記事の大分類を作成します。公開側のタグページにも表示されます。</p>
 
           <TagForm
@@ -27,7 +27,7 @@ export default async function TagPage() {
         </div>
 
         <div className="grow">
-          <h2 className="font-bold text-xl">登録済みタグ</h2>
+          <h2 className="font-bold text-base">登録済みタグ</h2>
           
           <TagTable
             allTags={allTags}
