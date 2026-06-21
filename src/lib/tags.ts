@@ -14,3 +14,22 @@ export async function getAllTags() {
     },
   });
 }
+
+export async function getPublishedPostTags() {
+  return await prisma.tag.findMany({
+    include: {
+      _count: {
+        select: {
+          posts: {
+            where: {
+              status: "PUBLISHED",
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}

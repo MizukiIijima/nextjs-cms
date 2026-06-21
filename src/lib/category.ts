@@ -24,3 +24,22 @@ export async function getSingleCategory(id: number) {
     },
   });
 }
+
+export async function getPublishedPostCategories() {
+  return await prisma.category.findMany({
+    include: {
+      _count: {
+        select: {
+          posts: {
+            where: {
+              status: "PUBLISHED",
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}

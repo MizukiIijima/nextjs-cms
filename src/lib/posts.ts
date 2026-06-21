@@ -1,7 +1,7 @@
 import "server-only";
 
 import { prisma } from "./prisma";
-import type { Prisma } from "@/src/generated/prisma/client";
+import { PostStatus, type Prisma } from "@/src/generated/prisma/client";
 
 export type PostWithCategory = Prisma.PostGetPayload<{
   include: {
@@ -26,6 +26,22 @@ export async function getSinglePost(
 
 export async function getAllPosts(): Promise<PostWithCategory[]> {
   return await prisma.post.findMany({
+    include: {
+      categories: true,
+      tags: true,
+      thumbnail: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}
+
+export async function getPublishedPosts(): Promise<PostWithCategory[]> {
+  return await prisma.post.findMany({
+    where: {
+      status: PostStatus.PUBLISHED,
+    },
     include: {
       categories: true,
       tags: true,
