@@ -1,3 +1,6 @@
+import "server-only";
+
+import { PostStatus } from "@/src/generated/prisma/client";
 import { prisma } from "./prisma";
 
 export async function getAllTags() {
@@ -22,7 +25,7 @@ export async function getPublishedPostTags() {
         select: {
           posts: {
             where: {
-              status: "PUBLISHED",
+              status: PostStatus.PUBLISHED,
             },
           },
         },
@@ -30,6 +33,36 @@ export async function getPublishedPostTags() {
     },
     orderBy: {
       createdAt: "desc",
+    },
+  });
+}
+
+export async function getPublishedTagBySlug(slug: string) {
+  return await prisma.tag.findUnique({
+    where: {
+      slug,
+    },
+    include: {
+      posts: {
+        where: {
+          status: PostStatus.PUBLISHED,
+        },
+        include: {
+          categories: true,
+          tags: true,
+          thumbnail: true,
+        },
+        orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+      },
+      _count: {
+        select: {
+          posts: {
+            where: {
+              status: PostStatus.PUBLISHED,
+            },
+          },
+        },
+      },
     },
   });
 }

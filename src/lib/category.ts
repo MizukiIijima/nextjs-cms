@@ -1,6 +1,7 @@
 import "server-only";
 
 import { prisma } from "./prisma";
+import { PostStatus } from "@/src/generated/prisma/client";
 
 export async function getAllCategories() {
   return await prisma.category.findMany({
@@ -32,7 +33,7 @@ export async function getPublishedPostCategories() {
         select: {
           posts: {
             where: {
-              status: "PUBLISHED",
+              status: PostStatus.PUBLISHED,
             },
           },
         },
@@ -40,6 +41,36 @@ export async function getPublishedPostCategories() {
     },
     orderBy: {
       createdAt: "desc",
+    },
+  });
+}
+
+export async function getPublishedCategoryBySlug(slug: string) {
+  return await prisma.category.findUnique({
+    where: {
+      slug,
+    },
+    include: {
+      posts: {
+        where: {
+          status: PostStatus.PUBLISHED,
+        },
+        include: {
+          categories: true,
+          tags: true,
+          thumbnail: true,
+        },
+        orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+      },
+      _count: {
+        select: {
+          posts: {
+            where: {
+              status: PostStatus.PUBLISHED,
+            },
+          },
+        },
+      },
     },
   });
 }
