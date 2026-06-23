@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import { getPublishedCategoryBySlug } from "@/src/lib/category";
@@ -44,17 +45,6 @@ export default async function CategoryDetailPage({ params }: Props) {
         <main>
           <section>
             <div className="mb-8 border-b border-slate-200 pb-8">
-              <div className="mb-5 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
-                <Link
-                  href="/categories"
-                  className="transition-colors hover:text-blue-600"
-                >
-                  カテゴリ
-                </Link>
-                <span aria-hidden="true">/</span>
-                <span className="text-slate-700">{category.name}</span>
-              </div>
-
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <p className="mb-2 text-sm font-bold text-blue-600">
@@ -114,9 +104,30 @@ export default async function CategoryDetailPage({ params }: Props) {
                       <h2 className="mt-4 text-[18px] font-bold leading-snug tracking-[-0.01em] text-slate-950">
                         {post.title}
                       </h2>
-                      <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-slate-600">
-                        {getPostSummary(post)}
-                      </p>
+
+                      {post.thumbnail?.url && (
+                        <div className="mt-4 flex flex-col gap-4 sm:flex-row">
+                          <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-[14px] bg-slate-100 sm:w-60">
+                            <Image
+                              src={post.thumbnail.url}
+                              alt={post.thumbnail.altText || post.title}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 240px"
+                              className="object-cover"
+                              unoptimized
+                            />
+                          </div>
+                          <p className="line-clamp-3 text-[13px] leading-6 text-slate-600">
+                            {getPostSummary(post)}
+                          </p>
+                        </div>
+                      )}
+
+                      {!post.thumbnail?.url && (
+                        <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-slate-600">
+                          {getPostSummary(post)}
+                        </p>
+                      )}
                     </article>
                   );
                 })}

@@ -3,6 +3,7 @@ import { getPublishedPostTags } from "@/src/lib/tags";
 import { toPlainText } from "@/src/lib/utils";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -102,9 +103,30 @@ export default async function Home() {
                     <h2 className="mt-4 text-[18px] font-bold leading-snug tracking-[-0.01em] text-slate-950">
                       {post.title}
                     </h2>
-                    <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-slate-600">
-                      {getPostSummary(post)}
-                    </p>
+
+                    {post.thumbnail?.url && (
+                      <div className="mt-4 flex flex-col gap-4 sm:flex-row">
+                        <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-[14px] bg-slate-100 sm:w-60">
+                          <Image
+                            src={post.thumbnail.url}
+                            alt={post.thumbnail.altText || post.title}
+                            fill
+                            sizes="(max-width: 640px) 100vw, 240px"
+                            className="object-cover"
+                            unoptimized
+                          />
+                        </div>
+                        <p className="line-clamp-3 text-[13px] leading-6 text-slate-600">
+                          {getPostSummary(post)}
+                        </p>
+                      </div>
+                    )}
+
+                    {!post.thumbnail?.url && (
+                      <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-slate-600">
+                        {getPostSummary(post)}
+                      </p>
+                    )}
                   </article>
                 );
               })}
