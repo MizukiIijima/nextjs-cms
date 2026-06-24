@@ -15,6 +15,7 @@ export default async function CreatePost() {
         <PostForm 
           mode="create"
           postTitle=""
+          postSlug=""
           postContent=""
           allCategories={allCategories}
           allTags={allTags}

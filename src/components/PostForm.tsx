@@ -14,6 +14,7 @@ type FormProps =
   | {
       mode: "create";
       postTitle: string;
+      postSlug: string;
       postContent: string;
       allCategories: Category[];
       allTags: Tag[];
@@ -22,6 +23,7 @@ type FormProps =
       id: number;
       mode: "edit";
       postTitle: string;
+      postSlug: string;
       postContent: string;
       allCategories: Category[];
       allTags: Tag[];
@@ -40,6 +42,7 @@ export default function PostForm(props: FormProps) {
     mode === "create" ? createPostAction : editPostAction.bind(null, props.id);
   const [state, formAction] = useActionState(postAction, initialState);
   const [title, setTitle] = useState(postTitle);
+  const [slug, setSlug] = useState(props.postSlug);
   const [content, setContent] = useState(postContent);
   const [fileName, setFileName] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
@@ -83,6 +86,24 @@ export default function PostForm(props: FormProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+          {state.errors?.title && (
+            <p className="text-xs text-red-600">{state.errors.title[0]}</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="slug">スラッグ</label>
+          <input
+            type="text"
+            name="slug"
+            id="slug"
+            className="rounded-md border border-divider bg-white px-3 py-2 text-sm"
+            placeholder="未入力ならタイトルから自動生成"
+            value={slug}
+            onChange={(e) => setSlug(e.target.value)}
+          />
+          {state.errors?.slug && (
+            <p className="text-xs text-red-600">{state.errors.slug[0]}</p>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="content">本文</label>

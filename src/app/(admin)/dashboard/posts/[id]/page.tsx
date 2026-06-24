@@ -25,6 +25,7 @@ export default async function PostEditPage({ params }: { params: Promise<{ id: n
           id={post.id}
           mode="edit"
           postTitle={post.title}
+          postSlug={post.slug}
           postContent={post.content}
           allCategories={allCategories}
           allTags={allTags}
