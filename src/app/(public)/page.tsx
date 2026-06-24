@@ -78,56 +78,61 @@ export default async function Home() {
                   post.categories.length > 0 ? post.categories : post.tags;
 
                 return (
-                  <article
+                  <Link
                     key={post.id}
-                    className="rounded-[18px] border border-slate-200 bg-white px-5 py-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-colors hover:border-blue-200 sm:px-6 sm:py-5"
+                    href={`/articles/${post.slug}`}
+                    className="block"
                   >
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      {labels.slice(0, 2).map((label, labelIndex) => (
-                        <span
-                          key={`${label.id}-${label.name}`}
-                          className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                            pillStyles[(index + labelIndex) % pillStyles.length]
-                          }`}
+                    <article
+                      className="rounded-[18px] border border-slate-200 bg-white px-5 py-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-colors hover:border-blue-200 sm:px-6 sm:py-5"
+                    >
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        {labels.slice(0, 2).map((label, labelIndex) => (
+                          <span
+                            key={`${label.id}-${label.name}`}
+                            className={`rounded-full px-2.5 py-1 text-xs font-bold ${
+                              pillStyles[(index + labelIndex) % pillStyles.length]
+                            }`}
+                          >
+                            {label.name}
+                          </span>
+                        ))}
+                        <time
+                          dateTime={displayDate.toISOString()}
+                          className="text-xs font-bold text-slate-400"
                         >
-                          {label.name}
-                        </span>
-                      ))}
-                      <time
-                        dateTime={displayDate.toISOString()}
-                        className="text-xs font-bold text-slate-400"
-                      >
-                        {displayDate.toLocaleDateString("ja-JP")}
-                      </time>
-                    </div>
-                    <h2 className="mt-4 text-[18px] font-bold leading-snug tracking-[-0.01em] text-slate-950">
-                      {post.title}
-                    </h2>
+                          {displayDate.toLocaleDateString("ja-JP")}
+                        </time>
+                      </div>
+                      <h2 className="mt-4 text-[18px] font-bold leading-snug tracking-[-0.01em] text-slate-950">
+                        {post.title}
+                      </h2>
 
-                    {post.thumbnail?.url && (
-                      <div className="mt-4 flex flex-col gap-4 sm:flex-row">
-                        <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-[14px] bg-slate-100 sm:w-60">
-                          <Image
-                            src={post.thumbnail.url}
-                            alt={post.thumbnail.altText || post.title}
-                            fill
-                            sizes="(max-width: 640px) 100vw, 240px"
-                            className="object-cover"
-                            unoptimized
-                          />
+                      {post.thumbnail?.url && (
+                        <div className="mt-4 flex flex-col gap-4 sm:flex-row">
+                          <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-[14px] bg-slate-100 sm:w-60">
+                            <Image
+                              src={post.thumbnail.url}
+                              alt={post.thumbnail.altText || post.title}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 240px"
+                              className="object-cover"
+                              unoptimized
+                            />
+                          </div>
+                          <p className="line-clamp-3 text-[13px] leading-6 text-slate-600">
+                            {getPostSummary(post)}
+                          </p>
                         </div>
-                        <p className="line-clamp-3 text-[13px] leading-6 text-slate-600">
+                      )}
+
+                      {!post.thumbnail?.url && (
+                        <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-slate-600">
                           {getPostSummary(post)}
                         </p>
-                      </div>
-                    )}
-
-                    {!post.thumbnail?.url && (
-                      <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-slate-600">
-                        {getPostSummary(post)}
-                      </p>
-                    )}
-                  </article>
+                      )}
+                    </article>
+                  </Link>
                 );
               })}
             </div>
