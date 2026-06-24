@@ -11,3 +11,13 @@ export function toPlainText(value?: string | null) {
     .replace(/\s+/g, " ")
     .trim();
 }
+
+export function createSlug(value: string, fallback = "post") {
+  const slug = value
+    .normalize("NFKC")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{Letter}\p{Number}-]+/gu, "");
+
+  return slug || fallback;
+}
