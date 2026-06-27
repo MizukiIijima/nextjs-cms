@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Header from "@/src/components/Header";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="ja" className="h-full antialiased">
       <body className="min-h-screen bg-[#f4f6f8]">
         <div className="min-h-screen">
+          <Header />
           {children}
         </div>
       </body>
