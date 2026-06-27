@@ -166,7 +166,11 @@ export default async function PostList({
         </table>
       </div>
 
-      <Pagination currentPage={currentPage} totalPostCount={totalPostCount} />
+      <Pagination
+        currentPage={currentPage}
+        totalPostCount={totalPostCount}
+        basePath="/dashboard/posts"
+      />
     </div>
   );
 }
