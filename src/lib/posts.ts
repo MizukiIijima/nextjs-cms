@@ -76,7 +76,10 @@ export async function getAllPosts(): Promise<PostWithCategory[]> {
   });
 }
 
-export async function getPublishedPosts(): Promise<PostWithCategory[]> {
+export async function getPublishedPosts(
+  page = 1,
+  postsPerPage = 10,
+): Promise<PostWithCategory[]> {
   return await prisma.post.findMany({
     where: {
       status: PostStatus.PUBLISHED,
@@ -86,8 +89,16 @@ export async function getPublishedPosts(): Promise<PostWithCategory[]> {
       tags: true,
       thumbnail: true,
     },
-    orderBy: {
-      createdAt: "desc",
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    skip: (page - 1) * postsPerPage,
+    take: postsPerPage,
+  });
+}
+
+export async function getPublishedPostCount() {
+  return await prisma.post.count({
+    where: {
+      status: PostStatus.PUBLISHED,
     },
   });
 }

@@ -1,6 +1,10 @@
-import { getPublishedPosts } from "@/src/lib/posts";
+import {
+  getPublishedPostCount,
+  getPublishedPosts,
+} from "@/src/lib/posts";
 import { getPublishedPostTags } from "@/src/lib/tags";
 import { toPlainText } from "@/src/lib/utils";
+import Pagination from "@/src/components/Pagination";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -33,6 +37,8 @@ const pillStyles = [
   "bg-orange-50 text-orange-700",
 ] as const;
 
+const POSTS_PER_PAGE = 10;
+
 function getPostSummary(post: { excerpt: string | null; content: string }) {
   const summary = post.excerpt || toPlainText(post.content);
 
@@ -43,9 +49,20 @@ function getPostSummary(post: { excerpt: string | null; content: string }) {
   return `${summary.slice(0, 82)}...`;
 }
 
-export default async function Home() {
-  const [publishedPosts, tags] = await Promise.all([
-    getPublishedPosts(),
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const { page: pageParam } = await searchParams;
+  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
+  const parsedPage = Number(pageValue ?? "1");
+  const currentPage =
+    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+
+  const [publishedPosts, totalPostCount, tags] = await Promise.all([
+    getPublishedPosts(currentPage, POSTS_PER_PAGE),
+    getPublishedPostCount(),
     getPublishedPostTags(),
   ]);
 
@@ -58,9 +75,6 @@ export default async function Home() {
               <h1 className="text-[28px] font-bold leading-tight tracking-[-0.02em] text-slate-950">
                 新着記事
               </h1>
-              <p className="mt-2 text-sm text-slate-500">
-                最近書いた実装メモ
-              </p>
             </div>
             <Link
               href="#latest-posts"
@@ -141,6 +155,13 @@ export default async function Home() {
               公開中の記事がありません。
             </p>
           )}
+
+          <Pagination
+            currentPage={currentPage}
+            totalPostCount={totalPostCount}
+            basePath="/"
+            variant="public"
+          />
         </main>
 
         <PublicSidebar tags={tags} />
