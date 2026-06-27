@@ -91,3 +91,42 @@ export async function getPublishedPosts(): Promise<PostWithCategory[]> {
     },
   });
 }
+
+export async function getPostNav(createdAt: Date) {
+  const select = {
+    title: true,
+    slug: true,
+  } as const;
+
+  const [newer, older] = await Promise.all([
+    prisma.post.findFirst({
+      where: {
+        status: PostStatus.PUBLISHED,
+        createdAt: {
+          gt: createdAt,
+        },
+      },
+      select,
+      orderBy: {
+        createdAt: "asc",
+      },
+    }),
+    prisma.post.findFirst({
+      where: {
+        status: PostStatus.PUBLISHED,
+        createdAt: {
+          lt: createdAt,
+        },
+      },
+      select,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+  ]);
+
+  return {
+    newer,
+    older,
+  };
+}
