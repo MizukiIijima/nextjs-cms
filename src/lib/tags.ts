@@ -37,6 +37,31 @@ export async function getPublishedPostTags() {
   });
 }
 
+export async function getTagsPage(page = 1, tagsPerPage = 10) {
+  return await prisma.tag.findMany({
+    include: {
+      _count: {
+        select: {
+          posts: {
+            where: {
+              status: PostStatus.PUBLISHED,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    skip: (page - 1) * tagsPerPage,
+    take: tagsPerPage,
+  });
+}
+
+export async function getTagCount() {
+  return await prisma.tag.count();
+}
+
 export async function getPublishedTagBySlug(slug: string) {
   return await prisma.tag.findUnique({
     where: {

@@ -45,6 +45,27 @@ export async function getPublishedPostCategories() {
   });
 }
 
+export async function getCategoriesPage(page = 1, categoriesPerPage = 10) {
+  return await prisma.category.findMany({
+    include: {
+      _count: {
+        select: {
+          posts: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    skip: (page - 1) * categoriesPerPage,
+    take: categoriesPerPage,
+  });
+}
+
+export async function getCategoryCount() {
+  return await prisma.category.count();
+}
+
 export async function getPublishedCategoryBySlug(slug: string) {
   return await prisma.category.findUnique({
     where: {

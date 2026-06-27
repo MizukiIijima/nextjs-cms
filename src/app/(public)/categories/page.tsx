@@ -1,11 +1,28 @@
 import Link from "next/link";
+import Pagination from "@/src/components/Pagination";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
-import { getAllCategories } from "@/src/lib/category";
+import {
+  getCategoriesPage,
+  getCategoryCount,
+} from "@/src/lib/category";
 import { getPublishedPostTags } from "@/src/lib/tags";
 
-export default async function CategoryPage() {
-  const [allCategories, tags] = await Promise.all([
-    getAllCategories(),
+const CATEGORIES_PER_PAGE = 10;
+
+export default async function CategoryPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const { page: pageParam } = await searchParams;
+  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
+  const parsedPage = Number(pageValue ?? "1");
+  const currentPage =
+    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+
+  const [categories, totalCategoryCount, tags] = await Promise.all([
+    getCategoriesPage(currentPage, CATEGORIES_PER_PAGE),
+    getCategoryCount(),
     getPublishedPostTags(),
   ]);
 
@@ -21,7 +38,7 @@ export default async function CategoryPage() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {allCategories.map((category) => (
+              {categories.map((category) => (
                 <Link
                   key={category.id}
                   href={`/categories/${category.slug}`}
@@ -38,11 +55,18 @@ export default async function CategoryPage() {
                 </Link>
               ))}
             </div>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPostCount={totalCategoryCount}
+              basePath="/categories"
+              variant="public"
+            />
           </section>
         </main>
 
         <PublicSidebar tags={tags} />
       </div>
     </div>
-  )
+  );
 }

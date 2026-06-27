@@ -1,9 +1,30 @@
 import Link from "next/link";
+import Pagination from "@/src/components/Pagination";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
-import { getPublishedPostTags } from "@/src/lib/tags";
+import {
+  getPublishedPostTags,
+  getTagCount,
+  getTagsPage,
+} from "@/src/lib/tags";
 
-export default async function TagPage() {
-  const tags = await getPublishedPostTags();
+const TAGS_PER_PAGE = 10;
+
+export default async function TagPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const { page: pageParam } = await searchParams;
+  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
+  const parsedPage = Number(pageValue ?? "1");
+  const currentPage =
+    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+
+  const [tags, totalTagCount, sidebarTags] = await Promise.all([
+    getTagsPage(currentPage, TAGS_PER_PAGE),
+    getTagCount(),
+    getPublishedPostTags(),
+  ]);
 
   return (
     <div className="min-h-screen bg-[#f4f6f8] text-slate-950">
@@ -39,10 +60,17 @@ export default async function TagPage() {
                 タグが登録されていません。
               </p>
             )}
+
+            <Pagination
+              currentPage={currentPage}
+              totalPostCount={totalTagCount}
+              basePath="/tags"
+              variant="public"
+            />
           </section>
         </main>
 
-        <PublicSidebar tags={tags} />
+        <PublicSidebar tags={sidebarTags} />
       </div>
     </div>
   );
