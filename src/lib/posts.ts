@@ -2,6 +2,7 @@ import "server-only";
 
 import { prisma } from "./prisma";
 import { PostStatus, type Prisma } from "@/src/generated/prisma/client";
+import { normalizeEscapedCodeBlocks } from "@/src/lib/markdown";
 import { createSlug } from "@/src/lib/utils";
 
 export type PostWithCategory = Prisma.PostGetPayload<{
@@ -15,7 +16,7 @@ export type PostWithCategory = Prisma.PostGetPayload<{
 export async function getSinglePost(
   id: number,
 ): Promise<PostWithCategory | null> {
-  return await prisma.post.findUnique({
+  const post = await prisma.post.findUnique({
     where: { id },
     include: {
       categories: true,
@@ -23,12 +24,16 @@ export async function getSinglePost(
       thumbnail: true,
     },
   });
+
+  return post
+    ? { ...post, content: normalizeEscapedCodeBlocks(post.content) }
+    : null;
 }
 
 export async function getPublishedPostBySlug(
   slug: string,
 ): Promise<PostWithCategory | null> {
-  return await prisma.post.findFirst({
+  const post = await prisma.post.findFirst({
     where: {
       slug,
       status: PostStatus.PUBLISHED,
@@ -39,6 +44,10 @@ export async function getPublishedPostBySlug(
       thumbnail: true,
     },
   });
+
+  return post
+    ? { ...post, content: normalizeEscapedCodeBlocks(post.content) }
+    : null;
 }
 
 export async function getUniquePostSlug(value: string, excludeId?: number) {

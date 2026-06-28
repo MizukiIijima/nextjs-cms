@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown, { type Components } from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import { getPostNav, getPublishedPostBySlug } from "@/src/lib/posts";
@@ -49,7 +50,7 @@ const markdownComponents: Components = {
   ),
   pre: ({ ...props }) => (
     <pre
-      className="mt-6 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-7 text-slate-100"
+      className="mt-6 overflow-x-auto rounded-xl bg-[#0d1117] p-4 text-sm leading-7 text-slate-100 [&>code]:!overflow-visible [&>code]:!bg-transparent [&>code]:!p-0"
       {...props}
     />
   ),
@@ -131,6 +132,7 @@ export default async function ArticlePage({ params }: Props) {
             <div className="mt-7 text-[15px] text-slate-700">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
                 components={markdownComponents}
               >
                 {post.content}

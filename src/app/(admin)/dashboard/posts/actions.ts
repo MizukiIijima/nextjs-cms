@@ -5,6 +5,7 @@ import { z } from "zod";
 import { prisma } from "@/src/lib/prisma";
 import { PostStatus } from "@/src/generated/prisma/client";
 import { createMediaFromImage } from "@/src/lib/medias";
+import { normalizeEscapedCodeBlocks } from "@/src/lib/markdown";
 import { getUniquePostSlug } from "@/src/lib/posts";
 
 export type CreatePostState = {
@@ -100,7 +101,7 @@ export async function createPostAction(
       data: {
         title,
         slug,
-        content,
+        content: normalizeEscapedCodeBlocks(content),
         status,
         thumbnailId,
         categories: {
@@ -182,7 +183,7 @@ export async function editPostAction(
       data: {
         title,
         slug,
-        content,
+        content: normalizeEscapedCodeBlocks(content),
         status,
         ...(thumbnailId !== undefined ? { thumbnailId } : {}),
         categories: {

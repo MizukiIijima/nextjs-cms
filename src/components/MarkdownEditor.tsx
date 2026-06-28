@@ -55,7 +55,6 @@ export default function MarkdownEditor({ value, onChange }: Props) {
         listsPlugin(),
         quotePlugin(),
         thematicBreakPlugin(),
-        markdownShortcutPlugin(),
 
         linkPlugin(),
         linkDialogPlugin(),
@@ -91,6 +90,9 @@ export default function MarkdownEditor({ value, onChange }: Props) {
             return json.url;
           },
         }),
+
+        // Active plugins are detected when this initializes, so keep it after them.
+        markdownShortcutPlugin(),
 
         toolbarPlugin({
           toolbarContents: () => (
