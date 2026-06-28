@@ -14,13 +14,22 @@ type Props = {
 
 const markdownComponents: Components = {
   h1: ({ ...props }) => (
-    <h1 className="mt-10 text-3xl font-bold leading-tight text-slate-950" {...props} />
+    <h1
+      className="relative mt-12 border-b border-slate-200 pb-3 text-3xl font-bold leading-tight tracking-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-16 after:bg-slate-500 after:content-['']"
+      {...props}
+    />
   ),
   h2: ({ ...props }) => (
-    <h2 className="mt-9 text-2xl font-bold leading-tight text-slate-950" {...props} />
+    <h2
+      className="relative mt-11 border-b border-slate-200 pb-3 text-2xl font-bold leading-tight tracking-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-16 after:bg-slate-500 after:content-['']"
+      {...props}
+    />
   ),
   h3: ({ ...props }) => (
-    <h3 className="mt-8 text-xl font-bold leading-tight text-slate-950" {...props} />
+    <h3
+      className="relative mt-9 border-b border-slate-200 pb-2.5 text-xl font-bold leading-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-12 after:bg-slate-500 after:content-['']"
+      {...props}
+    />
   ),
   p: ({ ...props }) => <p className="mt-5 leading-8" {...props} />,
   a: ({ ...props }) => (
@@ -83,7 +92,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
-      <div className="mx-auto grid w-full max-w-268 gap-7 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,744px)_300px] lg:px-0">
+      <div className="mx-auto grid w-full max-w-288 gap-7 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-0">
         <main>
           <article className="rounded-[18px] border border-slate-200 bg-white px-5 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.03)] sm:px-8 sm:py-8">
             <Link
@@ -122,7 +131,7 @@ export default async function ArticlePage({ params }: Props) {
                   src={post.thumbnail.url}
                   alt={post.thumbnail.altText || post.title}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 744px"
+                  sizes="(max-width: 1024px) 100vw, 824px"
                   className="object-cover"
                   unoptimized
                 />
