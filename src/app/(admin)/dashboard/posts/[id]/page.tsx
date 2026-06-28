@@ -30,6 +30,8 @@ export default async function PostEditPage({ params }: { params: Promise<{ id: n
           allCategories={allCategories}
           allTags={allTags}
           thumbnail={post.thumbnail?.url ?? null}
+          selectedCategoryIds={post.categories.map((category) => category.id)}
+          selectedTagIds={post.tags.map((tag) => tag.id)}
         />
 
       </div>

@@ -28,18 +28,24 @@ type FormProps =
       allCategories: Category[];
       allTags: Tag[];
       thumbnail: string | null;
+      selectedCategoryIds: number[];
+      selectedTagIds: number[];
     };
 
 export default function PostForm(props: FormProps) {
   const { mode, postTitle, postContent, allCategories, allTags } = props;
-  const thumbnailUrl = mode === "edit" ? props.thumbnail : null;
   const initialState: CreatePostState = {
     success: false,
     message: "",
     errors: {},
   };
+  const thumbnailUrl = mode === "edit" ? props.thumbnail : null;
   const postAction =
     mode === "create" ? createPostAction : editPostAction.bind(null, props.id);
+  const selectedCategoryIds =
+    mode === "edit" ? props.selectedCategoryIds : [];
+  const selectedTagIds =
+    mode === "edit" ? props.selectedTagIds : [];
   const [state, formAction] = useActionState(postAction, initialState);
   const [title, setTitle] = useState(postTitle);
   const [slug, setSlug] = useState(props.postSlug);
@@ -168,6 +174,7 @@ export default function PostForm(props: FormProps) {
                 const categoryInputId = `category-${category.id}`;
 
                 return (
+
                   <label
                     key={category.id}
                     htmlFor={categoryInputId}
@@ -179,6 +186,7 @@ export default function PostForm(props: FormProps) {
                       name="categoryIds"
                       value={String(category.id)}
                       className="size-4 rounded border-divider"
+                      defaultChecked={selectedCategoryIds.includes(category.id)}
                     />
                     <span>{category.name}</span>
                   </label>
@@ -209,6 +217,7 @@ export default function PostForm(props: FormProps) {
                       name="tagIds"
                       value={String(tag.id)}
                       className="size-3.5 rounded border-divider"
+                      defaultChecked={selectedTagIds.includes(tag.id)}
                     />
                     <span>{tag.name}</span>
                   </label>
