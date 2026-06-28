@@ -81,7 +81,7 @@ export default async function ArticlePage({ params }: Props) {
   const displayDate = post.publishedAt ?? post.createdAt;
 
   return (
-    <div className="min-h-screen bg-[#f4f6f8] text-slate-950">
+    <div className="min-h-screen bg-white text-slate-950">
       <div className="mx-auto grid w-full max-w-268 gap-7 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,744px)_300px] lg:px-0">
         <main>
           <article className="rounded-[18px] border border-slate-200 bg-white px-5 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.03)] sm:px-8 sm:py-8">

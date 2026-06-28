@@ -65,86 +65,112 @@ export default async function Home({
     getPublishedPostCount(),
     getPublishedPostTags(),
   ]);
+  const [featuredPost, ...remainingPosts] = publishedPosts;
 
   return (
-    <div className="min-h-screen bg-[#f4f6f8] text-slate-950">
-      <div className="mx-auto grid w-full max-w-268 gap-7 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,744px)_300px] lg:px-0">
-        <main id="latest-posts">
-          <header className="mb-5 flex items-end justify-between gap-4">
-            <div>
-              <h1 className="text-[28px] font-bold leading-tight tracking-[-0.02em] text-slate-950">
-                新着記事
-              </h1>
-            </div>
-            <Link
-              href="#latest-posts"
-              className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-700"
-            >
-              すべて見る
-            </Link>
+    <div className="min-h-screen bg-white text-slate-950">
+      <div className="mx-auto grid w-full max-w-268 gap-7 px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,744px)_300px] lg:px-0">
+        <main id="latest-posts" className="min-w-0">
+          <header className="mb-7 flex items-end justify-between gap-4">
+            <h1 className="text-[34px] font-bold leading-tight tracking-[-0.02em] text-slate-950">
+              新着記事
+            </h1>
           </header>
 
-          {publishedPosts.length > 0 ? (
-            <div className="space-y-3.5">
-              {publishedPosts.map((post, index) => {
-                const displayDate = post.publishedAt ?? post.createdAt;
-                const labels =
-                  post.categories.length > 0 ? post.categories : post.tags;
+          {featuredPost ? (
+            <div className="space-y-4">
+              <Link
+                href={`/articles/${featuredPost.slug}`}
+                className="group block"
+              >
+                <article className="grid gap-6 rounded-[22px] border border-slate-200/90 bg-white p-6 shadow-[0_14px_35px_rgba(15,23,42,0.055)] transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_18px_42px_rgba(15,23,42,0.08)] sm:grid-cols-[250px_minmax(0,1fr)]">
+                  {featuredPost.thumbnail?.url && (
+                    <div className="relative aspect-8/5 w-full overflow-hidden rounded-[18px] border border-slate-200 bg-slate-50">
+                      <Image
+                        src={featuredPost.thumbnail.url}
+                        alt={
+                          featuredPost.thumbnail.altText || featuredPost.title
+                        }
+                        fill
+                        sizes="(max-width: 640px) 100vw, 250px"
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
+                  )}
 
-                return (
-                  <Link
-                    key={post.id}
-                    href={`/articles/${post.slug}`}
-                    className="block"
+                  <div
+                    className={`flex min-w-0 flex-col justify-center ${
+                      featuredPost.thumbnail?.url ? "" : "sm:col-span-2"
+                    }`}
                   >
-                    <article
-                      className="rounded-[18px] border border-slate-200 bg-white px-5 py-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-colors hover:border-blue-200 sm:px-6 sm:py-5"
-                    >
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        {labels.slice(0, 2).map((label, labelIndex) => (
+                    <div>
+                      <time
+                        dateTime={(
+                          featuredPost.publishedAt ?? featuredPost.createdAt
+                        ).toISOString()}
+                        className="text-xs font-bold text-slate-500"
+                      >
+                        {(
+                          featuredPost.publishedAt ?? featuredPost.createdAt
+                        ).toLocaleDateString("ja-JP")}
+                      </time>
+                    </div>
+
+                    <h2 className="mt-4 text-[20px] font-bold leading-snug tracking-[-0.01em] text-slate-950 transition-colors group-hover:text-blue-700">
+                      {featuredPost.title}
+                    </h2>
+                    <p className="mt-3 line-clamp-3 text-[13px] leading-6 text-slate-600">
+                      {getPostSummary(featuredPost)}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {(featuredPost.categories.length > 0
+                        ? featuredPost.categories
+                        : featuredPost.tags
+                      )
+                        .slice(0, 3)
+                        .map((label, labelIndex) => (
                           <span
                             key={`${label.id}-${label.name}`}
                             className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                              pillStyles[(index + labelIndex) % pillStyles.length]
+                              pillStyles[labelIndex % pillStyles.length]
                             }`}
                           >
                             {label.name}
                           </span>
                         ))}
-                        <time
-                          dateTime={displayDate.toISOString()}
-                          className="text-xs font-bold text-slate-400"
-                        >
-                          {displayDate.toLocaleDateString("ja-JP")}
-                        </time>
-                      </div>
-                      <h2 className="mt-4 text-[18px] font-bold leading-snug tracking-[-0.01em] text-slate-950">
-                        {post.title}
-                      </h2>
+                    </div>
+                  </div>
+                </article>
+              </Link>
 
-                      {post.thumbnail?.url && (
-                        <div className="mt-4 flex flex-col gap-4 sm:flex-row">
-                          <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-[14px] bg-slate-100 sm:w-60">
-                            <Image
-                              src={post.thumbnail.url}
-                              alt={post.thumbnail.altText || post.title}
-                              fill
-                              sizes="(max-width: 640px) 100vw, 240px"
-                              className="object-cover"
-                              unoptimized
-                            />
-                          </div>
-                          <p className="line-clamp-3 text-[13px] leading-6 text-slate-600">
-                            {getPostSummary(post)}
-                          </p>
-                        </div>
-                      )}
+              {remainingPosts.map((post) => {
+                const displayDate = post.publishedAt ?? post.createdAt;
 
-                      {!post.thumbnail?.url && (
-                        <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-slate-600">
+                return (
+                  <Link
+                    key={post.id}
+                    href={`/articles/${post.slug}`}
+                    className="group block"
+                  >
+                    <article className="grid min-h-24 items-center gap-x-4 gap-y-2 rounded-[18px] border border-slate-200/90 bg-white px-5 py-4 shadow-[0_10px_28px_rgba(15,23,42,0.04)] transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_14px_34px_rgba(15,23,42,0.07)] sm:grid-cols-[110px_minmax(0,1fr)] sm:px-6">
+                      <time
+                        dateTime={displayDate.toISOString()}
+                        className="text-xs font-bold text-slate-500"
+                      >
+                        {displayDate.toLocaleDateString("ja-JP")}
+                      </time>
+
+                      <div className="min-w-0">
+                        <h2 className="truncate text-[16px] font-bold leading-6 text-slate-950 transition-colors group-hover:text-blue-700">
+                          {post.title}
+                        </h2>
+                        <p className="mt-1 truncate text-[13px] leading-5 text-slate-500">
                           {getPostSummary(post)}
                         </p>
-                      )}
+                      </div>
+
                     </article>
                   </Link>
                 );
