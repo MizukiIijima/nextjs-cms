@@ -28,7 +28,10 @@ export default async function Pagination({
   const isPublic = variant === "public";
 
   return (
-    <nav className="mt-6 flex justify-center" aria-label="ページネーション">
+    <nav
+      className={`${isPublic ? "mt-8" : "mt-6"} flex justify-center`}
+      aria-label="ページネーション"
+    >
       <ul
         className={
           isPublic
@@ -51,10 +54,14 @@ export default async function Pagination({
                       }
                 }
                 aria-current={isActive ? "page" : undefined}
-                className={`flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm font-bold transition-colors ${
+                className={`flex items-center justify-center text-sm font-bold transition-colors ${
+                  isPublic
+                    ? "h-10 min-w-10 rounded-[14px] px-3"
+                    : "h-9 min-w-9 rounded-md px-3"
+                } ${
                   isActive
                     ? isPublic
-                      ? "bg-slate-900 text-white shadow-sm"
+                      ? "bg-slate-900 text-white shadow-[0_10px_24px_rgba(15,23,42,0.2)]"
                       : "bg-sidebar text-white"
                     : isPublic
                       ? "border border-slate-200 bg-white text-slate-600 hover:border-slate-400 hover:text-slate-900"

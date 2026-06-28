@@ -12,26 +12,27 @@ type SidebarProps = {
 export async function PublicSidebar({ tags }: SidebarProps) {
   const profile = await getProfile();
   const categories = await getPublishedPostCategories();
+  const sectionClass =
+    "rounded-[22px] border border-slate-200/90 bg-white p-[22px] shadow-[0_14px_35px_rgba(15,23,42,0.05)]";
 
   return (
     <aside className="space-y-4 lg:sticky lg:top-6 lg:self-start">
       <section
         aria-labelledby="profile-heading"
-        className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+        className={sectionClass}
       >
-        <div className="flex items-center gap-3.5">
+        <div className="flex items-center gap-4">
           {profile?.image?.url && (
-              <Image
-                src={profile.image.url}
-                width={112}
-                height={112}
-                alt={
-                  profile.image.altText ||
-                  `${profile.name}のプロフィール画像`
-                }
-                className="size-14 shrink-0 rounded-[15px] object-cover"
-                unoptimized
-              />
+            <Image
+              src={profile.image.url}
+              width={112}
+              height={112}
+              alt={
+                profile.image.altText || `${profile.name}のプロフィール画像`
+              }
+              className="size-14 shrink-0 rounded-[18px] border border-blue-100 bg-blue-50 object-cover"
+              unoptimized
+            />
           )}
           <div className="min-w-0">
             <h2
@@ -45,17 +46,11 @@ export async function PublicSidebar({ tags }: SidebarProps) {
         <p className="mt-5 text-sm leading-7 text-slate-600">
           {toPlainText(profile?.content)}
         </p>
-        <Link
-          href="#profile-heading"
-          className="mt-5 inline-flex text-sm font-medium text-blue-600 transition-colors hover:text-blue-700"
-        >
-          プロフィールを見る
-        </Link>
       </section>
 
       <section
         aria-labelledby="category-heading"
-        className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+        className={sectionClass}
       >
         <div className="flex items-center justify-between gap-4">
           <h2
@@ -64,7 +59,12 @@ export async function PublicSidebar({ tags }: SidebarProps) {
           >
             カテゴリ
           </h2>
-          <Link href="/categories" className="text-xs font-medium text-blue-600">一覧</Link>
+          <Link
+            href="/categories"
+            className="text-xs font-medium text-blue-600 transition-colors hover:text-blue-800"
+          >
+            一覧
+          </Link>
         </div>
         {categories.length > 0 ? (
           <ul className="mt-5 divide-y divide-slate-200">
@@ -79,7 +79,7 @@ export async function PublicSidebar({ tags }: SidebarProps) {
                 >
                   {category.name}
                 </Link>
-                <span className="text-sm font-bold text-slate-500">
+                <span className="min-w-7 rounded-full bg-slate-50 px-2 py-1 text-center text-xs font-bold text-slate-500">
                   {category._count.posts}
                 </span>
               </li>
@@ -94,7 +94,7 @@ export async function PublicSidebar({ tags }: SidebarProps) {
 
       <section
         aria-labelledby="tag-heading"
-        className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+        className={sectionClass}
       >
         <div className="flex items-center justify-between gap-4">
           <h2
@@ -105,8 +105,10 @@ export async function PublicSidebar({ tags }: SidebarProps) {
           </h2>
           <Link
             href="/tags"
-            className="text-xs font-medium text-blue-600"
-          >一覧</Link>
+            className="text-xs font-medium text-blue-600 transition-colors hover:text-blue-800"
+          >
+            一覧
+          </Link>
         </div>
         {tags.length > 0 ? (
           <ul className="mt-5 flex flex-wrap gap-2">
@@ -114,7 +116,7 @@ export async function PublicSidebar({ tags }: SidebarProps) {
               <li key={tag.id}>
                 <Link
                   href={`/tags/${tag.slug}`}
-                  className="inline-flex rounded-full bg-slate-100 px-2.5 py-1.5 text-xs font-bold text-slate-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                  className="inline-flex rounded-full border border-slate-100 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-600 transition-colors hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"
                 >
                   #{tag.name}
                 </Link>
