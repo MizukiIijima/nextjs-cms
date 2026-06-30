@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/src/lib/prisma";
 import { createMediaFromImage } from "@/src/lib/medias";
+import { verifySession } from "@/src/lib/auth/dal";
 
 export type ProfileState = {
   success: boolean;
@@ -47,6 +48,8 @@ export async function createAction(
   _prevState: ProfileState,
   formData: FormData,
 ): Promise<ProfileState> {
+  await verifySession();
+
   const validatedFields = profileSchema.safeParse({
     name: formData.get("name"),
     content: formData.get("content"),
@@ -101,6 +104,8 @@ export async function editProfile(
   _prevState: ProfileState,
   formData: FormData,
 ): Promise<ProfileState> {
+  await verifySession();
+
   const validatedFields = profileSchema.safeParse({
     name: formData.get("name"),
     content: formData.get("content"),

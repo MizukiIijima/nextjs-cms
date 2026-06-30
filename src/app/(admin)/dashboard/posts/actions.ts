@@ -7,6 +7,7 @@ import { PostStatus } from "@/src/generated/prisma/client";
 import { createMediaFromImage } from "@/src/lib/medias";
 import { normalizeEscapedCodeBlocks } from "@/src/lib/markdown";
 import { getUniquePostSlug } from "@/src/lib/posts";
+import { verifySession } from "@/src/lib/auth/dal";
 
 export type CreatePostState = {
   success: boolean;
@@ -60,6 +61,8 @@ export async function createPostAction(
   _prevState: CreatePostState,
   formData: FormData,
 ): Promise<CreatePostState> {
+  await verifySession();
+
   const validatedPostFields = postSchema.safeParse({
     title: formData.get("title"),
     slug: formData.get("slug"),
@@ -141,6 +144,8 @@ export async function editPostAction(
   _prevState: CreatePostState,
   formData: FormData,
 ): Promise<CreatePostState> {
+  await verifySession();
+
   const validatedPostFields = postSchema.safeParse({
     title: formData.get("title"),
     slug: formData.get("slug"),

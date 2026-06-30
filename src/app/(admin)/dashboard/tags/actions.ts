@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { Prisma } from "@/src/generated/prisma/client";
 import { prisma } from "@/src/lib/prisma";
+import { verifySession } from "@/src/lib/auth/dal";
 
 const tagSchema = z.object({
   name: z.string().trim().min(1, { error: "タグ名は必須です" }),
@@ -25,6 +26,8 @@ export async function createTag(
   _prevState: TagFormState,
   formData: FormData,
 ): Promise<TagFormState> {
+  await verifySession();
+
   const validatedTagFields = tagSchema.safeParse({
     name: formData.get("name"),
     slug: formData.get("slug"),
@@ -75,6 +78,8 @@ export async function editTag(
   _prevState: TagFormState,
   formData: FormData,
 ): Promise<TagFormState> {
+  await verifySession();
+
   const validatedTagId = tagIdSchema.safeParse(formData.get("id"));
   const validatedTagFields = tagSchema.safeParse({
     name: formData.get("name"),
@@ -132,6 +137,8 @@ export async function deleteTag(
   _prevState: TagFormState,
   formData: FormData,
 ): Promise<TagFormState> {
+  await verifySession();
+
   const validatedTagId = tagIdSchema.safeParse(formData.get("id"));
 
   if (!validatedTagId.success) {

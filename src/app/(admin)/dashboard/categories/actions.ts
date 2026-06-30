@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/src/lib/prisma";
+import { verifySession } from "@/src/lib/auth/dal";
 
 const categorySchema = z.object({
   name: z.string().trim().min(1, { error: "カテゴリ名は必須です。" }),
@@ -26,6 +27,8 @@ export async function createCategory(
   prevState: CategoryFormState,
   formData: FormData,
 ): Promise<CategoryFormState> {
+  await verifySession();
+
   const validatedCategoryFields = categorySchema.safeParse({
     name: formData.get("name"),
     slug: formData.get("slug"),
@@ -64,6 +67,8 @@ export async function updateCategory(
   prevState: CategoryFormState,
   formData: FormData,
 ): Promise<CategoryFormState> {
+  await verifySession();
+
   const validatedCategoryId = categoryIdSchema.safeParse(formData.get("id"));
   const validatedCategoryFields = categorySchema.safeParse({
     name: formData.get("name"),
@@ -106,6 +111,8 @@ export async function updateCategory(
 }
 
 export async function deleteCategory(id: number) {
+  await verifySession();
+
   await prisma.category.delete({
     where: {
       id,
