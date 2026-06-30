@@ -1,8 +1,11 @@
 import { getAllCategories } from "@/src/lib/category";
 import { getAllTags } from "@/src/lib/tags";
+import { verifySession } from "@/src/lib/auth/dal";
 import PostForm from "@/src/components/PostForm";
 
 export default async function CreatePost() {
+  await verifySession();
+
   const allCategories = await getAllCategories();
   const allTags = await getAllTags();
 

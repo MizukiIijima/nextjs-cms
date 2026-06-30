@@ -1,5 +1,6 @@
 import { createTag, type TagFormState } from "./actions";
 import { getAllTags } from "@/src/lib/tags";
+import { verifySession } from "@/src/lib/auth/dal";
 import TagForm from "./_components/TagForm";
 import TagTable from "./_components/TagTable";
 
@@ -9,6 +10,8 @@ const initialState: TagFormState = {
 };
 
 export default async function TagPage() {
+  await verifySession();
+
   const allTags = await getAllTags();
 
   return (

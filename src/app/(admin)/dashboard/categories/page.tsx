@@ -1,5 +1,6 @@
 import { createCategory, type CategoryFormState } from "./actions";
 import { getAllCategories } from "@/src/lib/category";
+import { verifySession } from "@/src/lib/auth/dal";
 import CategoryForm from "./_components/CategoryForm";
 import CategoryTable from "./_components/CategoryTable";
 
@@ -9,6 +10,7 @@ const initialState: CategoryFormState = {
 }
 
 export default async function CategoryPage() {
+  await verifySession();
 
   const allCategories = await getAllCategories();
   

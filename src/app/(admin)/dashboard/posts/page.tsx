@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/src/lib/posts";
+import { verifySession } from "@/src/lib/auth/dal";
 import Pagination from "@/src/components/Pagination";
 import Link from "next/link";
 
@@ -7,6 +8,8 @@ export default async function PostList({
 }: {
   searchParams: Promise<{ page?: string }>;
 }) {
+  await verifySession();
+
   const allPosts = await getAllPosts();
   const { page: pageParam = "1" } = (await searchParams) ?? {};
   const currentPage = Math.max(1, Number(pageParam) || 1);

@@ -1,9 +1,12 @@
 import { getAllCategories } from "@/src/lib/category";
 import { getAllTags } from "@/src/lib/tags";
 import { getSinglePost } from "@/src/lib/posts";
+import { verifySession } from "@/src/lib/auth/dal";
 import PostForm from "@/src/components/PostForm";
 
 export default async function PostEditPage({ params }: { params: Promise<{ id: number }> }) {
+  await verifySession();
+
   const { id } = await params;
   const post = await getSinglePost(Number(id));
   const allCategories = await getAllCategories();

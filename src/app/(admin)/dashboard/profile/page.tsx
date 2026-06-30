@@ -1,7 +1,10 @@
 import { getProfile } from "@/src/lib/profile";
+import { verifySession } from "@/src/lib/auth/dal";
 import ProfileForm from "./ProfileForm";
 
 export default async function ProfilePage() {
+  await verifySession();
+
   const profile = await getProfile();
 
   return (
