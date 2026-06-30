@@ -1,5 +1,6 @@
 'use client';
 
+import { logout } from "@/src/app/(admin)/dashboard/actions";
 import SidebarLink from "./SidebarLink";
 import {
   FileText,
@@ -27,7 +28,6 @@ const navItems: NavItem[] = [
   { href: "/dashboard/profile", label: "プロフィール編集", Icon: UserPen },
   { href: "/dashboard/medias", label: "メディア管理", Icon: Images },
   { href: "/dashboard/comments", label: "コメント管理", Icon: MessageCircle },
-  { href: "/dashboard/logout", label: "ログアウト", Icon: LogOut },
 ];
 
 export default function Sidebar() {
@@ -44,6 +44,21 @@ export default function Sidebar() {
             />
           </li>
         ))}
+        <li>
+          <form action={logout}>
+            <button
+              className="group flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white"
+              type="submit"
+            >
+              <LogOut
+                aria-hidden="true"
+                className="size-5 shrink-0 text-white/70 group-hover:text-white/80"
+                strokeWidth={1.9}
+              />
+              <span>ログアウト</span>
+            </button>
+          </form>
+        </li> 
       </ul>
     </nav>
   );
