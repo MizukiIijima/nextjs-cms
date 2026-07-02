@@ -15,10 +15,22 @@ function hashSessionToken(token: string) {
   return createHash("sha256").update(token).digest("hex");
 }
 
+async function deleteExpiredSessions() {
+  await prisma.adminSession.deleteMany({
+    where: {
+      expiresAt: {
+        lte: new Date(),
+      },
+    },
+  });
+}
+
 export async function createSession(userId: number) {
   const token = createSessionToken();
   const tokenHash = hashSessionToken(token);
   const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
+
+  await deleteExpiredSessions();
 
   await prisma.adminSession.create({
     data: {
