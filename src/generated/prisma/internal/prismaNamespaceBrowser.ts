@@ -58,7 +58,8 @@ export const ModelName = {
   Category: 'Category',
   Media: 'Media',
   Comment: 'Comment',
-  Profile: 'Profile'
+  Profile: 'Profile',
+  LoginRateLimit: 'LoginRateLimit'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -176,6 +177,17 @@ export const ProfileScalarFieldEnum = {
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const LoginRateLimitScalarFieldEnum = {
+  key: 'key',
+  attempts: 'attempts',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LoginRateLimitScalarFieldEnum = (typeof LoginRateLimitScalarFieldEnum)[keyof typeof LoginRateLimitScalarFieldEnum]
 
 
 export const SortOrder = {

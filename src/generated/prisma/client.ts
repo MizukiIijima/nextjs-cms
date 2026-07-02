@@ -81,3 +81,8 @@ export type Comment = Prisma.CommentModel
  * 
  */
 export type Profile = Prisma.ProfileModel
+/**
+ * Model LoginRateLimit
+ * 
+ */
+export type LoginRateLimit = Prisma.LoginRateLimitModel
