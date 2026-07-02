@@ -2,10 +2,13 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
-
 import { prisma } from "@/src/lib/prisma";
 import { verifyPassword } from "@/src/lib/auth/password";
 import { createSession } from "@/src/lib/auth/session";
+import {
+  consumeLoginAttempt,
+  resetLoginAttempts,
+} from "@/src/lib/auth/rate-limit";
 
 const LoginSchema = z.object({
   email: z
@@ -47,6 +50,16 @@ export async function login(
 
   const { email, password } = validatedFields.data;
 
+  const rateLimit = await consumeLoginAttempt(email);
+
+  if (!rateLimit.allowed) {
+    const retryAfterMinutes = Math.ceil(rateLimit.retryAfterSeconds / 60);
+
+    return {
+      message: `ログイン試行回数が上限に達しました。${retryAfterMinutes}分後に再試行してください`,
+    };
+  }
+
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -71,6 +84,7 @@ export async function login(
     };
   }
 
+  await resetLoginAttempts(rateLimit.key);
   await createSession(user.id);
 
   redirect("/dashboard");
