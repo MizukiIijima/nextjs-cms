@@ -15,31 +15,31 @@ type Props = {
 const markdownComponents: Components = {
   h1: ({ ...props }) => (
     <h1
-      className="relative mt-12 border-b border-slate-200 pb-3 text-3xl font-bold leading-tight tracking-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-16 after:bg-slate-500 after:content-['']"
+      className="relative mt-12 mb-4 border-b border-slate-200 pb-3 text-3xl font-bold leading-tight tracking-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-16 after:bg-slate-500 after:content-['']"
       {...props}
     />
   ),
   h2: ({ ...props }) => (
     <h2
-      className="relative mt-11 border-b border-slate-200 pb-3 text-2xl font-bold leading-tight tracking-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-16 after:bg-slate-500 after:content-['']"
+      className="relative mt-11 mb-4 border-b border-slate-200 pb-3 text-2xl font-bold leading-tight tracking-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-16 after:bg-slate-500 after:content-['']"
       {...props}
     />
   ),
   h3: ({ ...props }) => (
     <h3
-      className="relative mt-9 border-b border-slate-200 pb-2.5 text-xl font-bold leading-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-12 after:bg-slate-500 after:content-['']"
+      className="relative mt-9 mb-4 border-b border-slate-200 pb-2.5 text-xl font-bold leading-tight text-slate-950 after:absolute after:-bottom-px after:left-0 after:h-0.5 after:w-12 after:bg-slate-500 after:content-['']"
       {...props}
     />
   ),
-  p: ({ ...props }) => <p className="mt-5 leading-8" {...props} />,
+  p: ({ ...props }) => <p className="leading-7" {...props} />,
   a: ({ ...props }) => (
     <a className="font-medium text-blue-600 underline-offset-4 hover:underline" {...props} />
   ),
   ul: ({ ...props }) => (
-    <ul className="mt-5 list-disc space-y-2 pl-6 leading-8" {...props} />
+    <ul className="list-disc space-y-1 pl-6 leading-7" {...props} />
   ),
   ol: ({ ...props }) => (
-    <ol className="mt-5 list-decimal space-y-2 pl-6 leading-8" {...props} />
+    <ol className="list-decimal space-y-1 pl-6 leading-7" {...props} />
   ),
   blockquote: ({ ...props }) => (
     <blockquote
@@ -59,7 +59,7 @@ const markdownComponents: Components = {
   ),
   pre: ({ ...props }) => (
     <pre
-      className="mt-6 overflow-x-auto rounded-xl bg-[#0d1117] p-4 text-sm leading-7 text-slate-100 [&>code]:!overflow-visible [&>code]:!bg-transparent [&>code]:!p-0"
+      className="mt-6 mb-4 overflow-x-auto rounded-xl bg-[#0d1117] p-4 text-sm leading-7 text-slate-100 [&>code]:!overflow-visible [&>code]:!bg-transparent [&>code]:!p-0"
       {...props}
     />
   ),
