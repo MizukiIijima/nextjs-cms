@@ -59,7 +59,7 @@ const markdownComponents: Components = {
   ),
   pre: ({ ...props }) => (
     <pre
-      className="mt-6 mb-4 overflow-x-auto rounded-xl bg-[#0d1117] p-4 text-sm leading-7 text-slate-100 [&>code]:!overflow-visible [&>code]:!bg-transparent [&>code]:!p-0"
+      className="mt-6 mb-4 overflow-x-auto rounded-xl bg-[#0d1117] p-4 text-sm leading-7 text-slate-100 [&>code]:overflow-visible! [&>code]:bg-transparent! [&>code]:p-0!"
       {...props}
     />
   ),
@@ -92,7 +92,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
-      <div className="mx-auto grid w-full max-w-288 gap-7 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-0">
+      <div className="mx-auto grid w-full max-w-6xl gap-7 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-0">
         <main>
           <article className="rounded-[18px] border border-slate-200 bg-white px-5 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.03)] sm:px-8 sm:py-8">
             <Link
