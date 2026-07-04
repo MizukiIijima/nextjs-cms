@@ -66,6 +66,18 @@ export async function getCategoryCount() {
   return await prisma.category.count();
 }
 
+export async function getCategoryMetadataBySlug(slug: string) {
+  return await prisma.category.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      name: true,
+      description: true,
+    },
+  });
+}
+
 export async function getPublishedCategoryBySlug(
   slug: string,
   page = 1,

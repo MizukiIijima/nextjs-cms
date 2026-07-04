@@ -3,7 +3,10 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Pagination from "@/src/components/Pagination";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
-import { getPublishedCategoryBySlug } from "@/src/lib/category";
+import {
+  getCategoryMetadataBySlug,
+  getPublishedCategoryBySlug,
+} from "@/src/lib/category";
 import { getPublishedPostTags } from "@/src/lib/tags";
 import { toPlainText } from "@/src/lib/utils";
 import type { Metadata } from "next";
@@ -28,7 +31,7 @@ const pillStyles = [
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const category = await getPublishedCategoryBySlug(slug);
+  const category = await getCategoryMetadataBySlug(slug);
 
   if (!category) {
     return {
