@@ -91,3 +91,15 @@ export async function getPublishedTagBySlug(slug: string) {
     },
   });
 }
+
+export async function getTagMetadata(slug: string) {
+  return await prisma.tag.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      name: true,
+      description: true,
+    },
+  });
+}
