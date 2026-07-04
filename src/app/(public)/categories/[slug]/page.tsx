@@ -5,6 +5,7 @@ import { PublicSidebar } from "@/src/components/PublicSidebar";
 import { getPublishedCategoryBySlug } from "@/src/lib/category";
 import { getPublishedPostTags } from "@/src/lib/tags";
 import { toPlainText } from "@/src/lib/utils";
+import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -17,6 +18,24 @@ const pillStyles = [
   "bg-emerald-50 text-emerald-700",
   "bg-orange-50 text-orange-700",
 ] as const;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const category = await getPublishedCategoryBySlug(slug);
+
+  if (!category) {
+    return {
+      title: 'カテゴリが存在しません。',
+      description: 'カテゴリが存在しません。',
+    }
+  }
+
+  return {
+    title: category.name,
+    description: category
+    .description || `${category.name}の一覧ページです。`,
+  }
+}
 
 function getPostSummary(post: { excerpt: string | null; content: string }) {
   const summary = post.excerpt || toPlainText(post.content);

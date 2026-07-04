@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import { getPostNav, getPublishedPostBySlug } from "@/src/lib/posts";
 import { getPublishedPostTags } from "@/src/lib/tags";
+import { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -75,6 +76,23 @@ const markdownComponents: Components = {
     <td className="border border-slate-200 px-3 py-2 align-top" {...props} />
   ),
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getPublishedPostBySlug(slug);
+
+  if (!article) {
+    return {
+      title: '記事が見つかりません。',
+      description: '指定された記事は存在しません。',
+    }
+  }
+
+  return {
+    title: article.title,
+    description: article.excerpt || `${article.title}に関する記事です。`,
+  }
+}
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;

@@ -4,14 +4,13 @@ import "../globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Next.js CMS",
-    template: "%s | Next.js CMS",
+    default: "zimamemo",
+    template: "%s - zimamemo",
   },
-  description: "Next.js CMSで運営するブログサイトです。",
-  applicationName: "Next.js CMS",
-  keywords: ["Next.js", "CMS", "ブログ", "記事"],
+  description: "zimamemo - 仕事や学習を通して学んだことをまとめる技術ブログです。",
+  applicationName: "zimamemo",
   openGraph: {
-    siteName: "Next.js CMS",
+    siteName: "zimamemo",
     type: "website",
     locale: "ja_JP",
   },
