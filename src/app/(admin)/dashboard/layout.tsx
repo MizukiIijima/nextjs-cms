@@ -5,7 +5,7 @@ import Sidebar from "@/src/components/Sidebar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    process.env.SITE_URL || "http://localhost:3000",
   ),
   title: "zimamemo - 管理画面",
   robots: {
