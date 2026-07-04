@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import { getPostNav, getPublishedPostBySlug } from "@/src/lib/posts";
 import { getPublishedPostTags } from "@/src/lib/tags";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -79,19 +79,50 @@ const markdownComponents: Components = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = await getPublishedPostBySlug(slug);
+  const decodedSlug = decodeURIComponent(slug);
+  const article = await getPublishedPostBySlug(decodedSlug);
 
   if (!article) {
     return {
-      title: '記事が見つかりません。',
-      description: '指定された記事は存在しません。',
-    }
+      title: "記事が見つかりません。",
+      description: "指定された記事は存在しません。",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
+
+  const description =
+    article.excerpt || `${article.title}に関する記事です。`;
+  const canonical = `/articles/${encodeURIComponent(decodedSlug)}`;
+  const images = article.thumbnail?.url
+    ? [
+        {
+          url: article.thumbnail.url,
+          alt: article.thumbnail.altText || article.title,
+        },
+      ]
+    : undefined;
 
   return {
     title: article.title,
-    description: article.excerpt || `${article.title}に関する記事です。`,
-  }
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: article.title,
+      description,
+      url: canonical,
+      siteName: "zimamemo",
+      type: "article",
+      locale: "ja_JP",
+      publishedTime: article.publishedAt?.toISOString(),
+      modifiedTime: article.updatedAt.toISOString(),
+      images,
+    },
+  };
 }
 
 export default async function ArticlePage({ params }: Props) {

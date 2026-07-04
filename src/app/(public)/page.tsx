@@ -10,24 +10,42 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "新着記事",
-  description:
-    "Next.js CMSで公開された最新記事、カテゴリ、タグ、プロフィールをまとめて確認できます。",
-  openGraph: {
-    title: "新着記事",
-    description:
-      "Next.js CMSで公開された最新記事、カテゴリ、タグ、プロフィールをまとめて確認できます。",
-    type: "website",
-    locale: "ja_JP",
-  },
-  twitter: {
-    card: "summary",
-    title: "新着記事",
-    description:
-      "Next.js CMSで公開された最新記事、カテゴリ、タグ、プロフィールをまとめて確認できます。",
-  },
+type PageProps = {
+  searchParams: Promise<{ page?: string | string[] }>;
 };
+
+const pageDescription = "新着記事、カテゴリ、タグ、プロフィールをまとめて確認できます。";
+
+function getCurrentPage(pageParam?: string | string[]) {
+  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
+  const parsedPage = Number(pageValue ?? "1");
+
+  return Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const { page } = await searchParams;
+  const currentPage = getCurrentPage(page);
+  const canonical = currentPage > 1 ? `/?page=${currentPage}` : "/";
+
+  return {
+    title: "新着記事",
+    description: pageDescription,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: "新着記事",
+      description: pageDescription,
+      url: "/",
+      siteName: "zimamemo",
+      type: "website",
+      locale: "ja_JP",
+    },
+  };
+}
 
 const pillStyles = [
   "bg-blue-50 text-blue-700",
@@ -49,16 +67,9 @@ function getPostSummary(post: { excerpt: string | null; content: string }) {
   return `${summary.slice(0, 82)}...`;
 }
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string | string[] }>;
-}) {
+export default async function Home({ searchParams }: PageProps) {
   const { page: pageParam } = await searchParams;
-  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
-  const parsedPage = Number(pageValue ?? "1");
-  const currentPage =
-    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+  const currentPage = getCurrentPage(pageParam);
 
   const [publishedPosts, totalPostCount, tags] = await Promise.all([
     getPublishedPosts(currentPage, POSTS_PER_PAGE),

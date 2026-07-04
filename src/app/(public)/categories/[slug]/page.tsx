@@ -29,22 +29,55 @@ const pillStyles = [
   "bg-orange-50 text-orange-700",
 ] as const;
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const category = await getCategoryMetadataBySlug(slug);
+function getCurrentPage(pageParam?: string | string[]) {
+  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
+  const parsedPage = Number(pageValue ?? "1");
+
+  return Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const [{ slug }, { page }] = await Promise.all([params, searchParams]);
+  const decodedSlug = decodeURIComponent(slug);
+  const category = await getCategoryMetadataBySlug(decodedSlug);
 
   if (!category) {
     return {
-      title: 'カテゴリが存在しません。',
-      description: 'カテゴリが存在しません。',
-    }
+      title: "カテゴリが存在しません。",
+      description: "カテゴリが存在しません。",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
 
+  const title = category.name;
+  const description =
+    category.description || `${category.name}の一覧ページです。`;
+  const basePath = `/categories/${encodeURIComponent(decodedSlug)}`;
+  const currentPage = getCurrentPage(page);
+  const canonical =
+    currentPage > 1 ? `${basePath}?page=${currentPage}` : basePath;
+
   return {
-    title: category.name,
-    description: category
-    .description || `${category.name}の一覧ページです。`,
-  }
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: basePath,
+      siteName: "zimamemo",
+      type: "website",
+      locale: "ja_JP",
+    },
+  };
 }
 
 function getPostSummary(post: { excerpt: string | null; content: string }) {
@@ -63,13 +96,11 @@ export default async function CategoryDetailPage({
 }: PageProps) {
   const { slug } = await params;
   const { page: pageParam } = await searchParams;
-  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
-  const parsedPage = Number(pageValue ?? "1");
-  const currentPage =
-    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+  const decodedSlug = decodeURIComponent(slug);
+  const currentPage = getCurrentPage(pageParam);
 
   const [category, tags] = await Promise.all([
-    getPublishedCategoryBySlug(slug, currentPage, POSTS_PER_PAGE),
+    getPublishedCategoryBySlug(decodedSlug, currentPage, POSTS_PER_PAGE),
     getPublishedPostTags(),
   ]);
 

@@ -10,21 +10,46 @@ import type { Metadata } from "next";
 
 const TAGS_PER_PAGE = 10;
 
-export const metadata: Metadata = {
-  title: 'タグ一覧',
-  description: '記事に付けたタグをまとめています。技術名やキーワードから、関連する記事を探せます。',
-}
-
-export default async function TagPage({
-  searchParams,
-}: {
+type PageProps = {
   searchParams: Promise<{ page?: string | string[] }>;
-}) {
-  const { page: pageParam } = await searchParams;
+};
+
+const pageDescription = "記事に付けたタグをまとめています。キーワードから関連記事を探せます。";
+
+function getCurrentPage(pageParam?: string | string[]) {
   const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
   const parsedPage = Number(pageValue ?? "1");
-  const currentPage =
-    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+
+  return Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const { page } = await searchParams;
+  const currentPage = getCurrentPage(page);
+  const canonical = currentPage > 1 ? `/tags?page=${currentPage}` : "/tags";
+
+  return {
+    title: "タグ一覧",
+    description: pageDescription,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: "タグ一覧",
+      description: pageDescription,
+      url: "/tags",
+      siteName: "zimamemo",
+      type: "website",
+      locale: "ja_JP",
+    },
+  };
+}
+
+export default async function TagPage({ searchParams }: PageProps) {
+  const { page: pageParam } = await searchParams;
+  const currentPage = getCurrentPage(pageParam);
 
   const [tags, totalTagCount, sidebarTags] = await Promise.all([
     getTagsPage(currentPage, TAGS_PER_PAGE),

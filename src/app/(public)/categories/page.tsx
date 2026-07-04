@@ -10,21 +10,48 @@ import type { Metadata } from "next";
 
 const CATEGORIES_PER_PAGE = 10;
 
-export const metadata: Metadata = {
-  title: 'カテゴリ一覧',
-  description: '記事をカテゴリごとに整理しています。気になる分野から、関連する記事を探せます。',
-}
-
-export default async function CategoryPage({
-  searchParams,
-}: {
+type PageProps = {
   searchParams: Promise<{ page?: string | string[] }>;
-}) {
-  const { page: pageParam } = await searchParams;
+};
+
+const pageDescription =
+  "記事をカテゴリごとに整理しています。気になる分野から、関連記事を探せます。";
+
+function getCurrentPage(pageParam?: string | string[]) {
   const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
   const parsedPage = Number(pageValue ?? "1");
-  const currentPage =
-    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+
+  return Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const { page } = await searchParams;
+  const currentPage = getCurrentPage(page);
+  const canonical =
+    currentPage > 1 ? `/categories?page=${currentPage}` : "/categories";
+
+  return {
+    title: "カテゴリ一覧",
+    description: pageDescription,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: "カテゴリ一覧",
+      description: pageDescription,
+      url: "/categories",
+      siteName: "zimamemo",
+      type: "website",
+      locale: "ja_JP",
+    },
+  };
+}
+
+export default async function CategoryPage({ searchParams }: PageProps) {
+  const { page: pageParam } = await searchParams;
+  const currentPage = getCurrentPage(pageParam);
 
   const [categories, totalCategoryCount, tags] = await Promise.all([
     getCategoriesPage(currentPage, CATEGORIES_PER_PAGE),

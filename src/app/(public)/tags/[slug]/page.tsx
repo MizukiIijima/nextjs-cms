@@ -2,9 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
-import { getPublishedTagBySlug, getPublishedPostTags, getTagMetadata } from "@/src/lib/tags";
+import {
+  getPublishedTagBySlug,
+  getPublishedPostTags,
+  getTagMetadata,
+} from "@/src/lib/tags";
 import { toPlainText } from "@/src/lib/utils";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -30,19 +34,38 @@ function getPostSummary(post: { excerpt: string | null; content: string }) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const tag = await getTagMetadata(decodeURIComponent(slug));
+  const decodedSlug = decodeURIComponent(slug);
+  const tag = await getTagMetadata(decodedSlug);
 
   if (!tag) {
     return {
-      title: 'タグが見つかりませんでした。',
-      description: '指定されたタグは存在しません。'
-    }
+      title: "タグが見つかりませんでした。",
+      description: "指定されたタグは存在しません。",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
+
+  const description = `${tag.name}に関する記事をまとめています。`;
+  const canonical = `/tags/${encodeURIComponent(decodedSlug)}`;
 
   return {
     title: tag.name,
-    description: `${tag.name}に関する記事をまとめています。`,
-  }
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: tag.name,
+      description,
+      url: canonical,
+      siteName: "zimamemo",
+      type: "website",
+      locale: "ja_JP",
+    },
+  };
 }
 
 export default async function TagDetailPage({ params }: Props) {
