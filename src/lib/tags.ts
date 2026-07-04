@@ -99,7 +99,6 @@ export async function getTagMetadata(slug: string) {
     },
     select: {
       name: true,
-      description: true,
     },
   });
 }
