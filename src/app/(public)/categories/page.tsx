@@ -6,8 +6,14 @@ import {
   getCategoryCount,
 } from "@/src/lib/category";
 import { getPublishedPostTags } from "@/src/lib/tags";
+import type { Metadata } from "next";
 
 const CATEGORIES_PER_PAGE = 10;
+
+export const metadata: Metadata = {
+  title: 'カテゴリ一覧',
+  description: '記事をカテゴリごとに整理しています。気になる分野から、関連する記事を探せます。',
+}
 
 export default async function CategoryPage({
   searchParams,

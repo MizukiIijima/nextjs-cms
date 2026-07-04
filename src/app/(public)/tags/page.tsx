@@ -6,8 +6,14 @@ import {
   getTagCount,
   getTagsPage,
 } from "@/src/lib/tags";
+import type { Metadata } from "next";
 
 const TAGS_PER_PAGE = 10;
+
+export const metadata: Metadata = {
+  title: 'タグ一覧',
+  description: '記事に付けたタグをまとめています。技術名やキーワードから、関連する記事を探せます。',
+}
 
 export default async function TagPage({
   searchParams,

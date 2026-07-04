@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import { getPublishedTagBySlug, getPublishedPostTags } from "@/src/lib/tags";
 import { toPlainText } from "@/src/lib/utils";
+import { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -25,6 +26,23 @@ function getPostSummary(post: { excerpt: string | null; content: string }) {
   }
 
   return `${summary.slice(0, 96)}...`;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const tag = await getPublishedTagBySlug(decodeURIComponent(slug));
+
+  if (!tag) {
+    return {
+      title: 'タグが見つかりませんでした。',
+      description: '指定されたタグは存在しません。'
+    }
+  }
+
+  return {
+    title: tag.name,
+    description: `${tag.name}に関する記事をまとめています。`,
+  }
 }
 
 export default async function TagDetailPage({ params }: Props) {
