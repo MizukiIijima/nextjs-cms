@@ -66,7 +66,11 @@ export async function getCategoryCount() {
   return await prisma.category.count();
 }
 
-export async function getPublishedCategoryBySlug(slug: string) {
+export async function getPublishedCategoryBySlug(
+  slug: string,
+  page = 1,
+  postsPerPage = 10,
+) {
   return await prisma.category.findUnique({
     where: {
       slug,
@@ -78,10 +82,11 @@ export async function getPublishedCategoryBySlug(slug: string) {
         },
         include: {
           categories: true,
-          tags: true,
           thumbnail: true,
         },
         orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+        skip: (page - 1) * postsPerPage,
+        take: postsPerPage,
       },
       _count: {
         select: {

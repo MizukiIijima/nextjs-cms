@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Pagination from "@/src/components/Pagination";
 import { PublicSidebar } from "@/src/components/PublicSidebar";
 import { getPublishedCategoryBySlug } from "@/src/lib/category";
 import { getPublishedPostTags } from "@/src/lib/tags";
@@ -10,6 +11,12 @@ import type { Metadata } from "next";
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+type PageProps = Props & {
+  searchParams: Promise<{ page?: string | string[] }>;
+};
+
+const POSTS_PER_PAGE = 10;
 
 const pillStyles = [
   "bg-blue-50 text-blue-700",
@@ -47,10 +54,19 @@ function getPostSummary(post: { excerpt: string | null; content: string }) {
   return `${summary.slice(0, 96)}...`;
 }
 
-export default async function CategoryDetailPage({ params }: Props) {
+export default async function CategoryDetailPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { slug } = await params;
+  const { page: pageParam } = await searchParams;
+  const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
+  const parsedPage = Number(pageValue ?? "1");
+  const currentPage =
+    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+
   const [category, tags] = await Promise.all([
-    getPublishedCategoryBySlug(slug),
+    getPublishedCategoryBySlug(slug, currentPage, POSTS_PER_PAGE),
     getPublishedPostTags(),
   ]);
 
@@ -91,13 +107,13 @@ export default async function CategoryDetailPage({ params }: Props) {
               <div className="space-y-3.5">
                 {category.posts.map((post, index) => {
                   const displayDate = post.publishedAt ?? post.createdAt;
-                  const labels =
-                    post.categories.length > 0 ? post.categories : post.tags;
+                  const labels = post.categories;
 
                   return (
-                    <article
+                    <Link
                       key={post.id}
-                      className="rounded-[18px] border border-slate-200 bg-white px-5 py-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-colors hover:border-blue-200 sm:px-6 sm:py-5"
+                      href={`/articles/${post.slug}`}
+                      className="block rounded-[18px] border border-slate-200 bg-white px-5 py-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-colors hover:border-blue-200 sm:px-6 sm:py-5"
                     >
                       <div className="flex flex-wrap items-center gap-2.5">
                         {labels.slice(0, 2).map((label, labelIndex) => (
@@ -126,7 +142,7 @@ export default async function CategoryDetailPage({ params }: Props) {
 
                       {post.thumbnail?.url && (
                         <div className="mt-4 flex flex-col gap-4 sm:flex-row">
-                          <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-[14px] bg-slate-100 sm:w-60">
+                          <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-[14px] bg-slate-100 sm:w-60">
                             <Image
                               src={post.thumbnail.url}
                               alt={post.thumbnail.altText || post.title}
@@ -147,7 +163,7 @@ export default async function CategoryDetailPage({ params }: Props) {
                           {getPostSummary(post)}
                         </p>
                       )}
-                    </article>
+                    </Link>
                   );
                 })}
               </div>
@@ -156,6 +172,13 @@ export default async function CategoryDetailPage({ params }: Props) {
                 このカテゴリの公開記事はまだありません。
               </p>
             )}
+
+            <Pagination
+              currentPage={currentPage}
+              totalPostCount={category._count.posts}
+              basePath={`/categories/${category.slug}`}
+              variant="public"
+            />
           </section>
         </main>
         <PublicSidebar tags={tags} />
