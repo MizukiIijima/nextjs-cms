@@ -32,13 +32,7 @@ export default async function Pagination({
       className={`${isPublic ? "mt-8" : "mt-6"} flex justify-center`}
       aria-label="ページネーション"
     >
-      <ul
-        className={
-          isPublic
-            ? "flex gap-2"
-            : "flex gap-2 rounded-lg border border-divider bg-white p-1 shadow-sm"
-        }
-      >
+      <ul className="flex gap-2">
         {pageNumbers.map((pageNumber) => {
           const isActive = pageNumber === currentPage;
 
