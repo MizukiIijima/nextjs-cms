@@ -187,7 +187,7 @@ export default async function ArticlePage({ params }: Props) {
               </div>
             )}
 
-            <div className="mt-7 min-w-0 wrap-break-word text-[15px] text-slate-700 [&_img]:mx-auto [&_img]:my-6 [&_img]:h-auto [&_img]:max-h-128 [&_img]:w-auto [&_img]:max-w-[min(100%,42rem)] [&_img]:rounded-xl [&_img]:object-contain">
+            <div className="mt-7 min-w-0 wrap-break-word text-[15px] text-slate-700 [&_img]:mx-0 [&_img]:my-6 [&_img]:h-auto [&_img]:max-h-128 [&_img]:w-auto [&_img]:max-w-[min(100%,42rem)] [&_img]:rounded-xl [&_img]:object-contain">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight]}
