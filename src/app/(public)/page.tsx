@@ -14,7 +14,7 @@ type PageProps = {
   searchParams: Promise<{ page?: string | string[] }>;
 };
 
-const pageDescription = "新着記事、カテゴリ、タグ、プロフィールをまとめて確認できます。";
+const pageDescription = "Next.jsやTypeScriptを中心に、日々の学習や開発で気づいたことをまとめる技術メモです。";
 
 function getCurrentPage(pageParam?: string | string[]) {
   const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam;
@@ -31,13 +31,15 @@ export async function generateMetadata({
   const canonical = currentPage > 1 ? `/?page=${currentPage}` : "/";
 
   return {
-    title: "新着記事",
+    title: {
+      absolute: "新着記事 - zimamemo",
+    },
     description: pageDescription,
     alternates: {
       canonical,
     },
     openGraph: {
-      title: "新着記事",
+      title: "新着記事 - zimamemo",
       description: pageDescription,
       url: "/",
       siteName: "zimamemo",
