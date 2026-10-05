@@ -7,7 +7,8 @@
     "build": "next build",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:auth": "node --conditions=react-server --import tsx --test tests/auth.test.mts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.7.7",
