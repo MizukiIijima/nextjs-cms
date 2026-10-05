@@ -500,16 +500,8 @@ export type PostScalarRelationFilter = {
   isNot?: Prisma.PostWhereInput
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type EnumPostStatusFieldUpdateOperationsInput = {
   set?: $Enums.PostStatus
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
 }
 
 export type NullableIntFieldUpdateOperationsInput = {

@@ -1,11 +1,69 @@
 "use client";
 
 import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
 
 import Button from "@/src/components/Button";
-import { login } from "./actions";
+import { authClient } from "@/src/lib/auth-client";
+
+const LoginSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, "メールアドレスを入力してください")
+    .email("正しいメールアドレスを入力してください")
+    .transform((email) => email.toLowerCase()),
+  password: z
+    .string()
+    .min(1, "パスワードを入力してください")
+    .max(256, "パスワードが長すぎます"),
+});
+
+type LoginState = {
+  errors?: { email?: string[]; password?: string[] };
+  message?: string;
+} | undefined;
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  async function login(
+    _previousState: LoginState,
+    formData: FormData,
+  ): Promise<LoginState> {
+    const validatedFields = LoginSchema.safeParse({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+
+    if (!validatedFields.success) {
+      return { errors: z.flattenError(validatedFields.error).fieldErrors };
+    }
+
+    try {
+      // HTTP 経由で呼び出し、Better Auth のレート制限を適用する。
+      const { error } = await authClient.signIn.email(validatedFields.data);
+
+      if (error) {
+        if (error.status === 429) {
+          return { message: "ログイン試行回数が上限に達しました。15分ほど待ってから再試行してください" };
+        }
+
+        if (error.code === "INVALID_EMAIL_OR_PASSWORD") {
+          return { message: "メールアドレスまたはパスワードが違います" };
+        }
+
+        return { message: "ログインに失敗しました。時間をおいて再試行してください" };
+      }
+    } catch {
+      return { message: "通信に失敗しました。接続を確認して再試行してください" };
+    }
+
+    router.replace("/dashboard");
+    router.refresh();
+  }
+
   const [state, formAction, pending] = useActionState(login, undefined);
 
   return (

@@ -34,6 +34,10 @@ async function main() {
     throw new Error("ADMIN_PASSWORDは12文字以上にしてください");
   }
 
+  if (password.length > 256) {
+    throw new Error("ADMIN_PASSWORDは256文字以内にしてください");
+  }
+
   const existingUser = await prisma.user.findUnique({
     where: { email },
     select: { id: true },
@@ -46,11 +50,19 @@ async function main() {
 
   const passwordHash = await hash(password, PASSWORD_HASH_OPTIONS);
 
-  await prisma.user.create({
-    data: {
-      email,
-      passwordHash,
-    },
+  await prisma.$transaction(async (tx) => {
+    const user = await tx.user.create({
+      data: { email, name: "管理者" },
+    });
+
+    await tx.account.create({
+      data: {
+        userId: user.id,
+        providerId: "credential",
+        accountId: String(user.id),
+        password: passwordHash,
+      },
+    });
   });
 }
 

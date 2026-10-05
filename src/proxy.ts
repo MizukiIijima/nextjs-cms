@@ -1,9 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-
-const SESSION_COOKIE_NAME = "admin_session";
+import { getSessionCookie } from "better-auth/cookies";
 
 export function proxy(request: NextRequest) {
-  const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+  const sessionToken = getSessionCookie(request);
 
   if (!sessionToken) {
     return NextResponse.redirect(new URL("/login", request.url));

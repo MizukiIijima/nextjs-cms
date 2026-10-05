@@ -47,10 +47,20 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
- * Model AdminSession
+ * Model Session
  * 
  */
-export type AdminSession = Prisma.AdminSessionModel
+export type Session = Prisma.SessionModel
+/**
+ * Model Account
+ * 
+ */
+export type Account = Prisma.AccountModel
+/**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel
 /**
  * Model Post
  * 
@@ -82,7 +92,7 @@ export type Comment = Prisma.CommentModel
  */
 export type Profile = Prisma.ProfileModel
 /**
- * Model LoginRateLimit
+ * Model RateLimit
  * 
  */
-export type LoginRateLimit = Prisma.LoginRateLimitModel
+export type RateLimit = Prisma.RateLimitModel
